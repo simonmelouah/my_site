@@ -8,7 +8,7 @@ from flask import Flask
 from flask_mail import Mail
 import os		
 app = Flask(__name__, template_folder="Templates")
-
+wsgi_app = app.wsgi_app
 from views import *
 from models import *
 
