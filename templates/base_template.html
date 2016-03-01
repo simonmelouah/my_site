@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Simon Melouah</title>
+    <!--<link rel="icon" type="image/png" href="/static/logos/favicon-96x96.png" sizes="96x96">-->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-5  col-md-offset-4">
+                <h1>Simon Melouah</h1>
+            </div>
+        </div>
+
+    </div>
+<nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li role="presentation"><a href='/' name="home">Home</a></li>
+                    <li role="presentation"><a href='/about' name="about">Who I Am</a></li>
+                    <li role="presentation"><a href='/projects' name="projects">Projects</a></li>
+                    <li role="presentation"><a href='/blog' name="blog">Blog</a></li>
+                    <li role="presentation"><a href='/contact' name="contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+    <div class="container">
+        {% block main %}
+
+        {% endblock %}
+    </div>
+</body>
+</html>
+
