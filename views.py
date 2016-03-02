@@ -13,7 +13,7 @@ from password_encryption import Authentication
 import requests
 
 
-connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
+# connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
 
 @app.route('/', methods=['GET'])# pragma: no cover
 def home():
