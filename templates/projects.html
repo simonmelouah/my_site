@@ -1,11 +1,35 @@
 {% extends "base_template.html" %}
 {% block main %}
-</br>
-</br>
+<div class="jumbotron" style="background-image: url(/static/logos/equations.png);">
+
+    </div>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li role="presentation"><a href='/about' name="about">Who I Am</a></li>
+                    <li role="presentation"><a href='/projects' name="projects">Projects</a></li>
+                    <li role="presentation"><a href='/blog' name="blog">Blog</a></li>
+                    <li role="presentation"><a href='/contact' name="contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+
 <div class="row">
-    <div class="col-md-5 col-md-offset-2">
+    <div class="col-md-4 col-md-offset-2">
     <h1>Things I've worked on</h1>
         </div>
 </div>
 
+</div>
 {% endblock %}
