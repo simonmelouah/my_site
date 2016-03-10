@@ -9,11 +9,12 @@ import json # pragma: no cover
 import requests # pragma: no cover
 from db_interaction import DbInteraction# pragma: no cover
 from forms import LoginForm
-from password_encryption import Authentication
+from werkzeug.security import generate_password_hash, \
+     check_password_hash
 import requests
 
 
-# connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
+connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
 
 @app.route('/', methods=['GET'])# pragma: no cover
 def home():
@@ -48,14 +49,17 @@ def admin():
 
     username = form.username.data
     password = form.password.data
-    authenticate_login = Authentication(username, password)
-    print authenticate_login.pw_hash
-    check_user = connect.check_login(username, authenticate_login.pw_hash)
-    if check_user:
-        error = "Successful login"
+    user = connect.get_user(username)
+    if user:
+        generate_password_hash(password)
+        correct_login = check_password_hash(user.password, password)
+        if correct_login:
+            error = "Successful login"
 
+        else:
+            error = "Incorrect username or password"
     else:
-        error = "User not found"
+        error = "Incorrect username or password"
     return render_template("admin_login.html", form = form, error = error)
 
 

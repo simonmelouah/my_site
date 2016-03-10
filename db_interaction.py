@@ -20,8 +20,8 @@ class DbInteraction(object):
                 print e.message
 
 
-        def check_login(self, username, password):
+        def get_user(self, username):
 
-            login = self.db_session.query(Users).filter(Users.username == username, Users.password == password).first()
+            login = self.db_session.query(Users).filter(Users.username == username).first()
             return login
 
