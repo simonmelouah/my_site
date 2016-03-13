@@ -14,9 +14,19 @@ class Users(Base):
     username = Column(String(50))
     password = Column(String(150))
 
+class Technologies(Base):
+    __tablename__ = 'Technologies'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    value = Column(String(50))
+    image = Column(String(150))
+
 class Projects(Base):
     __tablename__ = 'Projects'
     id = Column(Integer, primary_key = True)
-    name = Column(String(50))
+    lookup_technologies = Column(Integer)
+    title = Column(String(50))
+    description = Column(String(500))
     url = Column(String(150))
+
 

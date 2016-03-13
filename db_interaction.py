@@ -25,3 +25,15 @@ class DbInteraction(object):
             login = self.db_session.query(Users).filter(Users.username == username).first()
             return login
 
+        def technology_choices(self):
+
+            technologies = self.db_session.query(Technologies)
+            return technologies
+
+        def add_new_technology(self, name, image):
+             technology = Technologies(
+                name = name)
+             self.db_session.add(technology)
+             self.db_session.commit()
+             self.db_session.close()
+

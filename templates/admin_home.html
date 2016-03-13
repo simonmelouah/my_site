@@ -1,0 +1,96 @@
+{% extends "base_template.html" %}
+{% block main %}
+<div class="jumbotron" style="background-image: url(/static/logos/10445947_10203158618059895_5424896344316164692_n.jpg);">
+
+    </div>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li role="presentation"><a href='/about' name="about">Who I Am</a></li>
+                    <li role="presentation"><a href='/projects' name="projects">Projects</a></li>
+                    <li role="presentation"><a href='/blog' name="blog">Blog</a></li>
+                    <li role="presentation"><a href='/contact' name="contact">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                            <li><a name="logout" href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+    <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-md-offset-4">
+                <h1>Admin Home</h1>
+                </div>
+            </div>
+    </br>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <form class="form-horizontal" role="form" method="post">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Title">Project Title:</label>
+                        <div class="col-md-8">
+                            {{ form.title(class="form-control", placeholder="Enter Title...") }}
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Technology">Technology Used:</label>
+                        <div class="col-md-8">
+                            {{ form.technology(class="form-control") }}
+                        </div>
+                        </div>
+                        <div class="form-group" id="new_techName" style="display:none">
+                            <label class="col-md-3 control-label" for="Other">New Technology:</label>
+                        <div class="col-md-8">
+                            {{ form.other_technology(class="form-control", placeholder="Enter Name...") }}
+                        </div>
+                        </div>
+                        <div class="form-group" id="new_techValue" style="display:none">
+                            <label class="col-md-3 control-label" for="Other">New Technology:</label>
+                        <div class="col-md-8">
+                            {{ form.other_technology(class="form-control", placeholder="Enter Name...") }}
+                        </div>
+                        </div>
+                        <div class="form-group" id="image" style="display:none">
+                            <label class="col-md-3 control-label" for="Image">Upload Image:</label>
+                        <div class="col-md-8">
+                            {{ form.image(class="form-control") }}
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Description">Description:</label>
+                        <div class="col-md-8">
+                            {{ form.description(class="form-control", placeholder="Enter Project Description...")}}
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="Url">URL:</label>
+                        <div class="col-md-8">
+                            {{ form.url(class="form-control", placeholder="Enter URL...")}}
+                        </div>
+                        </div>
+                        </br>
+                        <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button type="submit" class="btn btn-default" value="/display" name="submit">Submit Project</button>
+                        </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+    </div>
+
+{% endblock %}

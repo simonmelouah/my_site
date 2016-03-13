@@ -13,12 +13,3 @@ def login_required(test):
         else:
             return redirect(url_for('home'))
     return wrap
-
-def admin_login_required(test):
-    @wraps(test)
-    def wrap2(*args, **kwargs):
-        if views.session.get('admin_logged_in'):
-                return test(*args, **kwargs)
-        else:                
-                return redirect(url_for('home'))
-    return wrap2

@@ -8,10 +8,11 @@ import os # pragma: no cover
 import json # pragma: no cover
 import requests # pragma: no cover
 from db_interaction import DbInteraction# pragma: no cover
-from forms import LoginForm
+from forms import LoginForm, AdminForm
 from werkzeug.security import generate_password_hash, \
      check_password_hash
 import requests
+from logins import *
 
 
 connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
@@ -54,13 +55,34 @@ def admin():
         generate_password_hash(password)
         correct_login = check_password_hash(user.password, password)
         if correct_login:
-            error = "Successful login"
-
+            session['logged_in'] = True
+            return redirect(url_for('admin_home'))
         else:
             error = "Incorrect username or password"
     else:
         error = "Incorrect username or password"
     return render_template("admin_login.html", form = form, error = error)
+
+@app.route('/admin_home', methods=['GET', 'POST'])
+@login_required
+def admin_home():
+    form = AdminForm(request.form)
+    if request.method == 'GET':
+        technologies = connect.technology_choices()
+        choices = []
+        for i in technologies:
+            print "name: ", i.name
+            choices.extend([(i.value, i.name)])
+        choices.extend([('other', 'Other')])
+        form.technology.choices = choices
+        return render_template("admin_home.html", form = form)
+
+    title = form.title.data
+    technology = form.technology.data
+    if technology == "other":
+       technology = form.other_technology.data
+       image = form.image.data
+       connect.add_new_technology(technology, image)
 
 
 
