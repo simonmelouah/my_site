@@ -8,7 +8,7 @@ $(document).ready(function () {
         }
         else if (technology != "other"){
             document.getElementById('newTech').style.display = "none";
-            document.getElementById('image').style.display = "block";
+            document.getElementById('image').style.display = "none";
         
         }
     });

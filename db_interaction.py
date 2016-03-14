@@ -30,10 +30,25 @@ class DbInteraction(object):
             technologies = self.db_session.query(Technologies)
             return technologies
 
+        def get_technology(self, technology_name):
+
+            technology = self.db_session.query(Technologies.id).filter(Technologies.name == technology_name).first()
+            return technology
+
         def add_new_technology(self, name, image):
+
              technology = Technologies(
                 name = name)
              self.db_session.add(technology)
              self.db_session.commit()
-             self.db_session.close()
 
+        def add_project(self, title, lookup_technologies, description, url):
+
+            project = Projects(
+                title = title,
+                lookup_technologies = lookup_technologies,
+                description = description,
+                url = url
+                )
+            self.db_session.add(project)
+            self.db_session.commit()

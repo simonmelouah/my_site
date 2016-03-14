@@ -18,7 +18,6 @@ class Technologies(Base):
     __tablename__ = 'Technologies'
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
-    value = Column(String(50))
     image = Column(String(150))
 
 class Projects(Base):

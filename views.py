@@ -72,7 +72,7 @@ def admin_home():
         choices = []
         for i in technologies:
             print "name: ", i.name
-            choices.extend([(i.value, i.name)])
+            choices.extend([(i.id, i.name)])
         choices.extend([('other', 'Other')])
         form.technology.choices = choices
         return render_template("admin_home.html", form = form)
@@ -83,6 +83,14 @@ def admin_home():
        technology = form.other_technology.data
        image = form.image.data
        connect.add_new_technology(technology, image)
+
+    description = form.description.data
+    url = form.description.data
+    technology_object = connect.get_technology(technology)
+    print technology_object.id
+    connect.add_project(title, technology_object.id, description, url)
+
+    return redirect(url_for('projects'))
 
 
 
