@@ -1,19 +1,19 @@
 #Main file that renders html templates
 from flask import Flask, url_for, session, request, render_template, redirect, send_file# pragma: no cover
 from app import app# pragma: no cover
-from datetime import datetime, timedelta# pragma: no cover
-from random import randrange# pragma: no cover
-from flask_mail import Mail# pragma: no cover
-import os # pragma: no cover
-import json # pragma: no cover
-import requests # pragma: no cover
+import datetime
 from db_interaction import DbInteraction# pragma: no cover
-from forms import LoginForm, AdminForm
+from forms import Login, Admin, Project
+from werkzeug import secure_filename
 from werkzeug.security import generate_password_hash, \
      check_password_hash
 import requests
+import os
 from logins import *
 
+UPLOAD_FOLDER = '/tmp'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
 
@@ -24,13 +24,16 @@ def home():
 
 @app.route('/about', methods=['GET'])
 def about():
-
     return render_template("about.html")
 
 @app.route('/projects', methods=['GET'])
 def projects():
-
-    return render_template("projects.html")
+    form = Project(request.form)
+    if request.method == 'GET':
+        list_of_projects = connect.get_projects()
+        for i in list_of_projects:
+            print i.image
+        return render_template("projects.html", list_of_projects = list_of_projects)
 
 @app.route('/blog', methods=['GET'])
 def blog():
@@ -44,7 +47,7 @@ def contact():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    form = LoginForm(request.form)
+    form = Login(request.form)
     if request.method == 'GET':
         return render_template("admin_login.html", form = form)
 
@@ -66,29 +69,40 @@ def admin():
 @app.route('/admin_home', methods=['GET', 'POST'])
 @login_required
 def admin_home():
-    form = AdminForm(request.form)
+    form = Admin(request.form)
     if request.method == 'GET':
         technologies = connect.technology_choices()
-        choices = []
+        categories = connect.category_choices()
+        category_choices = []
+        technology_choices = []
+        for i in categories:
+            print i.name
+            category_choices.extend([(i.name, i.name)])
         for i in technologies:
-            print "name: ", i.name
-            choices.extend([(i.id, i.name)])
-        choices.extend([('other', 'Other')])
-        form.technology.choices = choices
+            technology_choices.extend([(i.name, i.name)])
+        form.category.choices = category_choices
+        technology_choices.extend([('other', 'Other')])
+        form.technology.choices = technology_choices
+        print form.technology.choices
         return render_template("admin_home.html", form = form)
 
     title = form.title.data
+    timestamp = datetime.datetime.now()
     technology = form.technology.data
     if technology == "other":
        technology = form.other_technology.data
-       image = form.image.data
-       connect.add_new_technology(technology, image)
+       image = request.files[form.image.data]
+       print image
+       filename = secure_filename(image.filename)
+       filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
+       image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+       connect.add_new_technology(technology, filepath)
 
     description = form.description.data
     url = form.description.data
     technology_object = connect.get_technology(technology)
     print technology_object.id
-    connect.add_project(title, technology_object.id, description, url)
+    connect.add_project(title, timestamp, technology_object.id, description, url)
 
     return redirect(url_for('projects'))
 

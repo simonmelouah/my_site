@@ -27,8 +27,13 @@ class DbInteraction(object):
 
         def technology_choices(self):
 
-            technologies = self.db_session.query(Technologies)
+            technologies = self.db_session.query(Technologies).all()
             return technologies
+
+        def category_choices(self):
+
+            categories = self.db_session.query(Categories).all()
+            return categories
 
         def get_technology(self, technology_name):
 
@@ -38,17 +43,29 @@ class DbInteraction(object):
         def add_new_technology(self, name, image):
 
              technology = Technologies(
-                name = name)
+                name = name,
+                image = image)
              self.db_session.add(technology)
              self.db_session.commit()
 
-        def add_project(self, title, lookup_technologies, description, url):
+        def add_project(self, title, timestamp, lookup_technologies, description, url):
 
             project = Projects(
                 title = title,
+                timestamp = timestamp,
                 lookup_technologies = lookup_technologies,
                 description = description,
                 url = url
                 )
             self.db_session.add(project)
             self.db_session.commit()
+
+        def get_projects(self):
+
+            projects = self.db_session.query(Projects.title.label('title'),
+                                             Technologies.image.label('image'),
+                                             Projects.timestamp.label('timestamp'),
+                                             Technologies.name.label('technology'),
+                                             Projects.description.label('description'),
+                                             Projects.url.label('url')).outerjoin(Technologies, Projects.lookup_technologies == Technologies.id).all()
+            return projects
