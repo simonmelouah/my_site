@@ -8,7 +8,6 @@ from views import *
 from db_interaction import *
 
 
-
 if __name__ == '__main__':
     app.secret_key = 'secret_key'
     HOST = os.environ.get('SERVER_HOST', 'localhost')

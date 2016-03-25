@@ -30,26 +30,38 @@
     <h1>Things I've worked on...</h1>
         </div>
 </div>
-        </br>
+        <br/>
         <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
 {% for i in list_of_projects %}
 <div class="panel panel-default">
       <div class="panel-heading">
-        <h1 class="panel-title" contenteditable="true">{{ i.title }}</h1>
+        <h1 class="panel-title" style="font-weight: bold;">{{ i.title }} ({{ i.category }})</h1>
       </div>
-      <div class="panel-body" contenteditable="true">
+      <div class="panel-body">
         <div class="row">
-        <div class="col-md-4">
-            <img src="/tmp/{{ i.image }}" style="width: 100px; height: 100px">
+        <div class="col-md-3">
+            <img src="{{ i.image }}" style="width: 100px; height: 100px">
           </div>
             <div class="col-md-8">
                 <p>{{ i.description }}</p>
+                <br/>
+                {% if i.url %}
+                <a href="{{ i.url }}" class="btn btn-primary">Github/Bitbucket</a>
+                {% else %}
+                <a href="" class="btn btn-primary" disabled>Private Repository</a>
+                {% endif %}
+                &nbsp&nbsp
+                {% if i.youtube %}
+                <a href="{{ i.youtube }}" class="btn btn-success">Youtube</a>
+                {% else %}
+                <a href="" class="btn btn-success" disabled>Youtube</a>
+                {% endif %}
           </div>
     </div>
     </div>
     </div>
-        {% endfor %}
+{% endfor %}
     </div>
 
 </div>

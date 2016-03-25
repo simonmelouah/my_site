@@ -1,5 +1,7 @@
 from wtforms import *
-from wtforms.widgets import TextArea, FileInput
+from wtforms.widgets import TextArea
+# from flask_wtf import Form
+# from flask_wtf.file import FileField
 
 class Login(Form):
     username = StringField('Username', [validators.Length(min=4, max=25), validators.DataRequired()])
@@ -10,9 +12,10 @@ class Admin(Form):
     category = SelectField('Category')
     technology = SelectField('Technology')
     other_technology = StringField('Other', [validators.Length(min=4, max=25), validators.DataRequired()])
-    image = StringField('Image', widget=FileInput())
+    image = FileField('Image')
     description = StringField('Description', widget=TextArea())
-    url = StringField('Url', [validators.Length(min=4, max=500), validators.DataRequired()])
+    url = StringField('Url')
+    youtube = StringField('Youtube')
 
 class Project(Form):
     order_by_date = SelectField('Date_Order', [('Most Recent', 'Most Recent'), ('Oldest', 'Oldest')])

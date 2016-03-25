@@ -3,7 +3,7 @@ from flask import Flask, url_for, session, request, render_template, redirect, s
 from app import app# pragma: no cover
 import datetime
 from db_interaction import DbInteraction# pragma: no cover
-from forms import Login, Admin, Project
+from forms import *
 from werkzeug import secure_filename
 from werkzeug.security import generate_password_hash, \
      check_password_hash
@@ -11,11 +11,11 @@ import requests
 import os
 from logins import *
 
-UPLOAD_FOLDER = '/tmp'
+UPLOAD_FOLDER = './static/logos'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
+# connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
 
 @app.route('/', methods=['GET'])# pragma: no cover
 def home():
@@ -91,18 +91,21 @@ def admin_home():
     technology = form.technology.data
     if technology == "other":
        technology = form.other_technology.data
-       image = request.files[form.image.data]
-       print image
-       filename = secure_filename(image.filename)
+       image_name = request.files[form.image.name]
+       print image_name
+       filename = secure_filename(image_name.filename)
+       print filename
        filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
-       image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+       print filepath
+       image_name.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
        connect.add_new_technology(technology, filepath)
 
     description = form.description.data
-    url = form.description.data
+    url = form.url.data
+    youtube = form.youtube.data
     technology_object = connect.get_technology(technology)
     print technology_object.id
-    connect.add_project(title, timestamp, technology_object.id, description, url)
+    connect.add_project(title, timestamp, technology_object.id, description, url, youtube)
 
     return redirect(url_for('projects'))
 
