@@ -102,7 +102,7 @@ def admin_home():
     youtube = form.youtube.data
     category_object = connect.get_category(category)
     technology_object = connect.get_technology(technology)
-    connect.add_project(title, timestamp, category, technology_object.id, description, url, youtube)
+    connect.add_project(title, timestamp, category_object.id, technology_object.id, description, url, youtube)
 
     return redirect(url_for('projects'))
 
