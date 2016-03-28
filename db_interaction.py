@@ -52,6 +52,16 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
+        def get_category(self, category_name):
+            try:
+                category = self.db_session.query(Categories).filter(Categories.name == category_name).first()
+                return category
+            except:
+                self.db_session.rollback()
+                raise
+            finally:
+                self.db_session.close()
+
         def get_technology(self, technology_name):
 
             try:
@@ -76,11 +86,12 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
-        def add_project(self, title, timestamp, lookup_technologies, description, url, youtube):
+        def add_project(self, title, timestamp, lookup_category, lookup_technologies, description, url, youtube):
             try:
                 project = Projects(
                     title = title,
                     timestamp = timestamp,
+                    lookup_categories = lookup_category,
                     lookup_technologies = lookup_technologies,
                     description = description,
                     url = url,
