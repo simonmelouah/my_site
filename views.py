@@ -19,7 +19,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/', methods=['GET'])# pragma: no cover
 def home():
-
     return render_template("about.html")
 
 @app.route('/about', methods=['GET'])
@@ -31,7 +30,10 @@ def projects():
     form = Project(request.form)
     if request.method == 'GET':
         list_of_projects = connect.get_projects()
-        return render_template("projects.html", list_of_projects = list_of_projects)
+        if session['logged_in']:
+            return render_template("projects.html", list_of_projects = list_of_projects, admin = True)
+        else:
+            return render_template("projects.html", list_of_projects = list_of_projects)
 
 @app.route('/blog', methods=['GET'])
 def blog():
@@ -47,6 +49,7 @@ def contact():
 def admin():
     form = Login(request.form)
     if request.method == 'GET':
+        session['logged_in'] = False
         return render_template("admin_login.html", form = form)
 
     username = form.username.data
@@ -106,6 +109,11 @@ def admin_home():
 
     return redirect(url_for('projects'))
 
+@app.route('/logout', methods=['GET'])
+def logout():
+    if request.method == 'GET':
+        session['logged_in'] = False
+        return redirect(url_for('about'))
 
 
 
