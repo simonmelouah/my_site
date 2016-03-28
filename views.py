@@ -16,6 +16,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
+connect = DbInteraction("site_admin", "3qDMkSQcQt2wZuUT", "my-site-rds-db.cyiv51njreag.eu-west-1.rds.amazonaws.com:3306", "my_site_db")
 @app.route('/', methods=['GET'])# pragma: no cover
 def home():
 
@@ -30,8 +31,6 @@ def projects():
     form = Project(request.form)
     if request.method == 'GET':
         list_of_projects = connect.get_projects()
-        for i in list_of_projects:
-
         return render_template("projects.html", list_of_projects = list_of_projects)
 
 @app.route('/blog', methods=['GET'])
