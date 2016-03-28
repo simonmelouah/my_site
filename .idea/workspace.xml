@@ -72,7 +72,7 @@
       <file leaf-file-name="admin_home.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/admin_home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-14.125">
               <caret line="86" column="88" selection-start-line="86" selection-start-column="88" selection-end-line="86" selection-end-column="88" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
@@ -96,13 +96,12 @@
       <file leaf-file-name="projects.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/projects.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.0">
-              <caret line="34" column="6" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="6" />
+            <state vertical-scroll-proportion="-9.375">
+              <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h1#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-                <marker date="1459193402000" expanded="true" signature="1527:1550" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -174,8 +173,8 @@
         <option value="$PROJECT_DIR$/templates/admin_home.html" />
         <option value="$PROJECT_DIR$/models.py" />
         <option value="$PROJECT_DIR$/db_interaction.py" />
-        <option value="$PROJECT_DIR$/templates/projects.html" />
         <option value="$PROJECT_DIR$/views.py" />
+        <option value="$PROJECT_DIR$/templates/projects.html" />
       </list>
     </option>
   </component>
@@ -815,12 +814,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/admin_home.html">
+    <entry file="file://$PROJECT_DIR$/db_interaction.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="86" column="88" selection-start-line="86" selection-start-column="88" selection-end-line="86" selection-end-column="88" />
+          <caret line="107" column="31" selection-start-line="107" selection-start-column="31" selection-end-line="107" selection-end-column="31" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -835,25 +834,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_interaction.py">
+    <entry file="file://$PROJECT_DIR$/templates/admin_home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="107" column="31" selection-start-line="107" selection-start-column="31" selection-end-line="107" selection-end-column="31" />
+        <state vertical-scroll-proportion="-14.125">
+          <caret line="86" column="88" selection-start-line="86" selection-start-column="88" selection-end-line="86" selection-end-column="88" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/projects.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.0">
-          <caret line="34" column="6" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="6" />
+        <state vertical-scroll-proportion="-9.375">
+          <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h1#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <marker date="1459193402000" expanded="true" signature="1527:1550" placeholder="..." />
           </folding>
         </state>
       </provider>
