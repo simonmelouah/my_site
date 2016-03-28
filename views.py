@@ -16,7 +16,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
-connect = DbInteraction("site_admin", "3qDMkSQcQt2wZuUT", "my-site-rds-db.cyiv51njreag.eu-west-1.rds.amazonaws.com:3306", "my_site_db")
+
 @app.route('/', methods=['GET'])# pragma: no cover
 def home():
 
