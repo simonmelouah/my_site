@@ -17,6 +17,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
 
+
 @app.route('/', methods=['GET'])# pragma: no cover
 def home():
     return render_template("about.html")
