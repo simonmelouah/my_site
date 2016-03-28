@@ -16,7 +16,7 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # connect = DbInteraction("my_site_login", "abc123", "localhost", "my_site") # pragma: no cover
-
+connect = DbInteraction("site_admin", "3qDMkSQcQt2wZuUT", "my-site-rds-db.cyiv51njreag.eu-west-1.rds.amazonaws.com:3306", "my_site_db")
 @app.route('/', methods=['GET'])# pragma: no cover
 def home():
 
@@ -58,7 +58,9 @@ def admin():
         generate_password_hash(password)
         correct_login = check_password_hash(user.password, password)
         if correct_login:
+            print correct_login
             session['logged_in'] = True
+            print session['logged_in']
             return redirect(url_for('admin_home'))
         else:
             error = "Incorrect username or password"
@@ -71,6 +73,7 @@ def admin():
 def admin_home():
     form = Admin(request.form)
     if request.method == 'GET':
+        print "Here"
         technologies = connect.technology_choices()
         categories = connect.category_choices()
         category_choices = []
@@ -91,13 +94,16 @@ def admin_home():
     technology = form.technology.data
     if technology == "other":
        technology = form.other_technology.data
+       print "Technology: ", technology
        image_name = request.files[form.image.name]
        print image_name
        filename = secure_filename(image_name.filename)
        print filename
        filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
        print filepath
-       image_name.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+       #image_name.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+       image_name.save(os.path.join(app.root_path, './static/logos', filename))
+       print "Here"
        connect.add_new_technology(technology, filepath)
 
     description = form.description.data
