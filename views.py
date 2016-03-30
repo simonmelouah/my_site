@@ -20,6 +20,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/', methods=['GET'])# pragma: no cover
 def home():
+    session['logged_in'] = False
     return render_template("about.html")
 
 @app.route('/about', methods=['GET'])
