@@ -2,13 +2,25 @@ from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 import urllib
 from models import *
+import os
 
 
 class DbInteraction(object):
 
-        def __init__(self, db_user, db_password, db_host, db_name):
+        def __init__(self):
 
             try:
+                environment = os.environ.get("ENVIRONMENT")
+                if environment == "production":
+                    db_user = os.environ.get("DB_USER")
+                    db_password = os.environ.get("PASSWORD")
+                    db_host = os.environ.get("DB_HOST")
+                    db_name = os.environ.get("DB_NAME")
+                else:
+                    db_user = "my_site_login"
+                    db_password = "abc123"
+                    db_host = "localhost"
+                    db_name = "my_site"
                 engine = create_engine('mysql://'+ db_user +':' + db_password + '@' + db_host + '/' + db_name,
                                        convert_unicode=True, isolation_level="READ UNCOMMITTED")
                 Base.metadata.create_all(engine)
@@ -33,7 +45,7 @@ class DbInteraction(object):
         def technology_choices(self):
 
             try:
-                technologies = self.db_session.query(Technologies).all()
+                technologies = self.db_session.query(Technology).all()
                 return technologies
             except:
                 self.db_session.rollback()
@@ -44,7 +56,7 @@ class DbInteraction(object):
         def category_choices(self):
 
             try:
-                categories = self.db_session.query(Categories).all()
+                categories = self.db_session.query(Category).all()
                 return categories
             except:
                 self.db_session.rollback()
@@ -54,7 +66,7 @@ class DbInteraction(object):
 
         def get_category(self, category_name):
             try:
-                category = self.db_session.query(Categories).filter(Categories.name == category_name).first()
+                category = self.db_session.query(Category).filter(Category.name == category_name).first()
                 return category
             except:
                 self.db_session.rollback()
@@ -65,7 +77,7 @@ class DbInteraction(object):
         def get_technology(self, technology_name):
 
             try:
-                technology = self.db_session.query(Technologies.id).filter(Technologies.name == technology_name).first()
+                technology = self.db_session.query(Technology.id).filter(Technology.name == technology_name).first()
                 return technology
             except:
                 self.db_session.rollback()
@@ -75,7 +87,7 @@ class DbInteraction(object):
 
         def add_new_technology(self, name, image):
             try:
-                 technology = Technologies(
+                 technology = Technology(
                     name = name,
                     image = image)
                  self.db_session.add(technology)
@@ -86,13 +98,13 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
-        def add_project(self, title, timestamp, lookup_category, lookup_technologies, description, url, youtube):
+        def add_project(self, title, timestamp, category_id, technology_id, description, url, youtube):
             try:
-                project = Projects(
+                project = Project(
                     title = title,
                     timestamp = timestamp,
-                    lookup_categories = lookup_category,
-                    lookup_technologies = lookup_technologies,
+                    category_id = category_id,
+                    technology_id = technology_id,
                     description = description,
                     url = url,
                     youtube = youtube
@@ -105,17 +117,34 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
-        def get_projects(self):
+        def projects(self):
 
-            projects = self.db_session.query(Projects.title.label('title'),
-                                             Technologies.image.label('image'),
-                                             Projects.timestamp.label('timestamp'),
-                                             Technologies.name.label('technology'),
-                                             Categories.name.label('category'),
-                                             Projects.description.label('description'),
-                                             Projects.url.label('url'),
-                                             Projects.youtube.label('youtube')).\
-                outerjoin(Technologies, Projects.lookup_technologies == Technologies.id).\
-                outerjoin(Categories, Projects.lookup_categories == Categories.id).\
-                order_by(Projects.timestamp.desc()).all()
-            return projects
+            get_projects = self.db_session.query(Project.id.label('id'),
+                                                 Project.title.label('title'),
+                                                 Technology.image.label('image'),
+                                                 Project.timestamp.label('timestamp'),
+                                                 Technology.name.label('technology'),
+                                                 Category.name.label('category'),
+                                                 Project.description.label('description'),
+                                                 Project.url.label('url'),
+                                                 Project.youtube.label('youtube')).\
+                outerjoin(Technology, Project.technology_id == Technology.id).\
+                order_by(Project.timestamp.desc()).all()
+            return get_projects
+
+        def single_project(self, project_id):
+
+            get_single_project = self.db_session.query(Project.title.label('title'),
+                                             Technology.image.label('image'),
+                                             Project.timestamp.label('timestamp'),
+                                             Technology.name.label('technology'),
+                                             Category.name.label('category'),
+                                             Project.description.label('description'),
+                                             Project.url.label('url'),
+                                             Project.youtube.label('youtube')).\
+                outerjoin(Technology, Project.technology_id == Technology.id).\
+                outerjoin(Category, Project.category_id == Category.id).\
+                filter(Project.id == project_id).\
+                order_by(Project.timestamp.desc()).first()
+            return get_single_project
+

@@ -1,15 +1,26 @@
 from wtforms import *
+from wtforms.fields.html5 import EmailField, IntegerField
+from flask_wtf import Form
+from wtforms.ext.sqlalchemy.orm import model_form
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.widgets import TextArea
-# from flask_wtf import Form
-# from flask_wtf.file import FileField
+from models import *
+from db_interaction import *
 
-class Login(Form):
-    username = StringField('Username', [validators.Length(min=4, max=25), validators.DataRequired()])
-    password = PasswordField('Password', [validators.Length(min=4, max=35), validators.DataRequired()])
+connect = DbInteraction()
 
-class Admin(Form):
+UserFormBase = model_form(User, Form)
+ProjectFormBase = model_form(Project, Form)
+
+class UserForm(UserFormBase):
+    username = StringField('Username', [validators.DataRequired()])
+    password = PasswordField('', [validators.optional(), validators.DataRequired()])
+
+class ProjectForm(ProjectFormBase):
     title = StringField('Title', [validators.Length(min=4, max=25), validators.DataRequired()])
-    category = SelectField('Category')
+    category = QuerySelectField('Category', query_factory= connect.category_choices,
+                            get_pk=lambda a: a.id,
+                            get_label=lambda a: a.name)
     technology = SelectField('Technology')
     other_technology = StringField('Other', [validators.Length(min=4, max=25), validators.DataRequired()])
     image = FileField('Image')
@@ -17,8 +28,4 @@ class Admin(Form):
     url = StringField('Url')
     youtube = StringField('Youtube')
 
-class Project(Form):
-    order_by_date = SelectField('Date_Order', [('Most Recent', 'Most Recent'), ('Oldest', 'Oldest')])
-    category = SelectField('Category')
-    technology = SelectField('Technology')
 
