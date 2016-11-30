@@ -34,7 +34,7 @@ class DbInteraction(object):
 
         def get_user(self, username):
             try:
-                login = self.db_session.query(Users).filter(Users.username == username).first()
+                login = self.db_session.query(User).filter(User.username == username).first()
                 return login
             except:
                 self.db_session.rollback()
@@ -129,6 +129,7 @@ class DbInteraction(object):
                                                  Project.url.label('url'),
                                                  Project.youtube.label('youtube')).\
                 outerjoin(Technology, Project.technology_id == Technology.id).\
+                outerjoin(Category, Project.category_id == Category.id).\
                 order_by(Project.timestamp.desc()).all()
             return get_projects
 

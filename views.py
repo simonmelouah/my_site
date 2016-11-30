@@ -32,6 +32,8 @@ def projects():
     form = ProjectForm(request.form)
     if request.method == 'GET':
         list_of_projects = connect.projects()
+        for i in list_of_projects:
+            print i.title
         if session['logged_in']:
             return render_template("projects.html", list_of_projects = list_of_projects, admin = True)
         else:
@@ -49,7 +51,7 @@ def contact():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    form = Login(request.form)
+    form = UserForm(request.form)
     if request.method == 'GET':
         session['logged_in'] = False
         return render_template("admin_login.html", form = form)
@@ -74,7 +76,7 @@ def admin():
 @app.route('/add_project', methods=['GET', 'POST'])
 @login_required
 def admin_home():
-    form = Admin(request.form)
+    form = ProjectForm(request.form)
     if request.method == 'GET':
         project = None
         if request.args.get('id'):
@@ -108,6 +110,7 @@ def admin_home():
         timestamp = datetime.datetime.now()
         category = form.category.data
         technology = form.technology.data
+        print category.id, technology
         if technology == "other":
            technology = form.other_technology.data
            image_name = request.files[form.image.name]
@@ -120,9 +123,9 @@ def admin_home():
         description = form.description.data
         url = form.url.data
         youtube = form.youtube.data
-        category_object = connect.get_category(category)
+        # category_object = connect.get_category(category)
         technology_object = connect.get_technology(technology)
-        connect.add_project(title, timestamp, category_object.id, technology_object.id, description, url, youtube)
+        connect.add_project(title, timestamp, category.id, technology_object.id, description, url, youtube)
 
         return redirect(url_for('projects'))
 
