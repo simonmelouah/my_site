@@ -19,9 +19,10 @@ connect = DbInteraction() # pragma: no cover
 # connect = DbInteraction("site_admin", "3qDMkSQcQt2wZuUT", "my-site-rds-db.cyiv51njreag.eu-west-1.rds.amazonaws.com:3306", "my_site_db")
 
 @app.route('/', methods=['GET'])# pragma: no cover
+@app.route('/home', methods=['GET'])# pragma: no cover
 def home():
     session['logged_in'] = False
-    return render_template("about.html")
+    return render_template("index.html")
 
 @app.route('/about', methods=['GET'])
 def about():
