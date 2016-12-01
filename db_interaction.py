@@ -78,7 +78,7 @@ class DbInteraction(object):
         def get_technology(self, technology_name):
 
             try:
-                technology = self.db_session.query(Technology.id).filter(Technology.name == technology_name).first()
+                technology = self.db_session.query(Technology).filter(Technology.name == technology_name).first()
                 return technology
             except:
                 self.db_session.rollback()
@@ -99,11 +99,11 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
-        def add_project(self, title, timestamp, category_id, technology_id, description, url, youtube):
+        def add_project(self, title, category_id, technology_id, description, url, youtube):
             try:
                 project = Project(
                     title = title,
-                    timestamp = timestamp,
+                    timestamp = datetime.datetime.now(),
                     category_id = category_id,
                     technology_id = technology_id,
                     description = description,
@@ -118,21 +118,49 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
-        def projects(self):
+        def update_project(self, project_id, title, category_id, technology_id, description, url, youtube):
+            try:
+                self.db_session.query(Project).filter(Project.id == project_id).update({'title': title, 'timestamp': datetime.datetime.now(),
+                                                                                        'category_id': category_id, 'technology_id': technology_id,
+                                                                                        'description': description, 'url': url, 'youtube': youtube})
+                self.db_session.commit()
+            except:
+                self.db_session.rollback()
+                raise
+            finally:
+                self.db_session.close()
 
-            get_projects = self.db_session.query(Project.id.label('id'),
-                                                 Project.title.label('title'),
-                                                 Technology.image.label('image'),
-                                                 Project.timestamp.label('timestamp'),
-                                                 Technology.name.label('technology'),
-                                                 Category.name.label('category'),
-                                                 Project.description.label('description'),
-                                                 Project.url.label('url'),
-                                                 Project.youtube.label('youtube')).\
-                outerjoin(Technology, Project.technology_id == Technology.id).\
-                outerjoin(Category, Project.category_id == Category.id).\
-                order_by(Project.timestamp.desc()).all()
-            return get_projects
+
+        def project(self, project_id=None):
+
+            if project_id:
+                get_project = self.db_session.query(Project.title.label('title'),
+                                             Technology.image.label('image'),
+                                             Project.timestamp.label('timestamp'),
+                                             Technology.name.label('technology'),
+                                             Category.name.label('category'),
+                                             Project.description.label('description'),
+                                             Project.url.label('url'),
+                                             Project.youtube.label('youtube')).\
+                                    outerjoin(Technology, Project.technology_id == Technology.id).\
+                                    outerjoin(Category, Project.category_id == Category.id).\
+                                    filter(Project.id == project_id).\
+                                    order_by(Project.timestamp.desc()).first()
+            else:
+                get_project = self.db_session.query(Project.id.label('id'),
+                                                Project.title.label('title'),
+                                                Technology.image.label('image'),
+                                                Project.timestamp.label('timestamp'),
+                                                Technology.name.label('technology'),
+                                                Category.name.label('category'),
+                                                Project.description.label('description'),
+                                                Project.url.label('url'),
+                                                Project.youtube.label('youtube')).\
+                                        outerjoin(Technology, Project.technology_id == Technology.id).\
+                                        outerjoin(Category, Project.category_id == Category.id).\
+                                        order_by(Project.timestamp.desc()).all()
+
+            return get_project
 
         def single_project(self, project_id):
 

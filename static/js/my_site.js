@@ -1,20 +1,20 @@
 $(document).ready(function () {
 
-    $('.hoverCheck').hover( function(){
-    console.log("Here");
-    var val = $(this).data('id');
-    console.log("This is the value: " + val);
-    $.ajax({
-        type : "POST",
-        url : "/projects",
-        contentType: 'application/json;charset=UTF-8',
-        data: JSON.stringify({'data-hover': val}),
-        dataType: "json",
-        success: function(result) {
-            console.log(result);
-        }
-    });
-    });
+//    $('.hoverCheck').hover( function(){
+//    console.log("Here");
+//    var val = $(this).data('id');
+//    console.log("This is the value: " + val);
+//    $.ajax({
+//        type : "POST",
+//        url : "/projects",
+//        contentType: 'application/json;charset=UTF-8',
+//        data: JSON.stringify({'data-hover': val}),
+//        dataType: "json",
+//        success: function(result) {
+//            console.log(result);
+//        }
+//    });
+//    });
 
     $('.gitRepo').click( function(){
     console.log("Here");
@@ -48,28 +48,39 @@ $(document).ready(function () {
     });
     });
 
-    var start_technology = $('#technology').val();
-    console.log(start_technology);
-    if (start_technology == "other") {
-      document.getElementById('newTech').style.display = "block";
-      document.getElementById('image').style.display = "block";
-    }
-    else{
-        document.getElementById('newTech').style.display = "none";
-        document.getElementById('image').style.display = "none";
-    }
-    $('#technology').on('change', function () {
-        var technology = $(this).val();
-        if (technology == "other") {
-            console.log("other");
-            document.getElementById('newTech').style.display = "block";
-            document.getElementById('image').style.display = "block";
+    $('.editProject').click(function(){
+
+       console.log("Pressed");
+       var id = $(this).val();
+       window.location.href="/add_project?id=" + id;
+
+    });
+
+    if (top.location.pathname === '/add_project'){
+        var start_technology = $("#technology option:selected").text();
+        console.log(start_technology);
+        if (start_technology == "Other") {
+          document.getElementById('newTech').style.display = "block";
+          document.getElementById('image').style.display = "block";
         }
-        else if (technology != "other"){
+        else{
             document.getElementById('newTech').style.display = "none";
             document.getElementById('image').style.display = "none";
-
         }
-    });
+        $('#technology').on('change', function () {
+            var technology = $("#technology option:selected").text();
+            console.log(technology);
+            if (technology == "Other") {
+                console.log("Other");
+                document.getElementById('newTech').style.display = "block";
+                document.getElementById('image').style.display = "block";
+            }
+            else if (technology != "Other"){
+                document.getElementById('newTech').style.display = "none";
+                document.getElementById('image').style.display = "none";
+
+            }
+        });
+    }
 
 });

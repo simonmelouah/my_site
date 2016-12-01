@@ -23,7 +23,7 @@
                 <br/>
                 <br/>
                 <br/>
-                <div class="col-md-4 col-md-offset-8">
+                <div class="col-md-2 col-md-offset-8">
                     <a href="/add_project" class="btn btn-info">Add Project >></a>
                 </div>
                 {% endif %}
@@ -35,7 +35,14 @@
             <div class="hoverCheck" data-id="{{ i.id }}">
             <div class="panel panel-default">
                   <div class="panel-heading">
-                    <h1 class="panel-title" style="font-weight: bold;">{{ i.title }} ({{ i.category }})</h1>
+                      <div class="row">
+                        <div class="col-md-11">
+                            <h1 class="panel-title" style="font-weight: bold;">{{ i.title }} ({{ i.category }})</h1>
+                        </div>
+                      <div class="col-md-1">
+                          <input class="editProject" type="image" src="./static/logos/pencil.png" value="{{ i.id }}">
+                      </div>
+                      </div>
                   </div>
                   <div class="panel-body">
                     <div class="row">
@@ -44,7 +51,7 @@
                       </div>
                         <div class="col-md-8">
                             {% if admin %}
-                            <a href="/add_project?id={{ i.id }}" class="btn btn-default">Edit</a>
+                            <!--<a href="/add_project?id={{ i.id }}" class="btn btn-default">Edit</a>-->
                             {% endif %}
                             <p>{{ i.description }}</p>
                             <br/>

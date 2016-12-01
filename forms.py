@@ -21,7 +21,9 @@ class ProjectForm(ProjectFormBase):
     category = QuerySelectField('Category', query_factory= connect.category_choices,
                             get_pk=lambda a: a.id,
                             get_label=lambda a: a.name)
-    technology = SelectField('Technology')
+    technology = QuerySelectField('Technology', query_factory= connect.technology_choices,
+                            get_pk=lambda a: a.id,
+                            get_label=lambda a: a.name)
     other_technology = StringField('Other', [validators.Length(min=4, max=25), validators.DataRequired()])
     image = FileField('Image')
     description = StringField('Description', widget=TextArea())

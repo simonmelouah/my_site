@@ -32,7 +32,7 @@ def about():
 @app.route('/projects', methods=['GET', 'POST'])
 def projects():
     form = ProjectForm(request.form)
-    list_of_projects = connect.projects()
+    list_of_projects = connect.project()
     if request.method == 'GET':
         if session['logged_in']:
             return render_template("projects.html", list_of_projects = list_of_projects, admin = True)
@@ -57,9 +57,9 @@ def contact():
     phone = request.form.get("phone")
     message = request.form.get("message")
     print name
-    slack_notification_payload={"text": "New Message- \n\nName: {0} \nEmail: {1} \nPhone: {2} \nMessage: {3}".format(name, email, phone, message)}
+    slack_notification_payload={"text": "New Message- \n\nName: {0} \nEmail: {1} \nPhone: {2} \nMessage: \n{3}".format(name, email, phone, message)}
     requests.post(slack_webhook, data=json.dumps(slack_notification_payload))
-    return render_template("contact.html")
+    return render_template("contact.html", message="Thanks for getting in touch :)")
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -94,53 +94,43 @@ def admin_home():
         project = None
         if request.args.get('id'):
             project_id = request.args.get('id')
-            project = connect.single_project(project_id)
+            project = connect.project(project_id)
             form.title.data = project.title
             form.description.data = project.description
             form.url.data = project.url
             form.youtube.data = project.youtube
-        technologies = connect.technology_choices()
-        categories = connect.category_choices()
-        category_choices = []
-        technology_choices = []
-        for i in categories:
-            if project:
-                if project.category == i.name:
-                    continue
-            category_choices.extend([(i.name, i.name)])
-        for i in technologies:
-            if project:
-                if project.technology == i.name:
-                    continue
-            technology_choices.extend([(i.name, i.name)])
-        form.category.choices = category_choices
-        technology_choices.extend([('other', 'Other')])
-        form.technology.choices = technology_choices
         return render_template("admin_home.html", form = form)
 
     elif request.method == 'POST':
+        project_id = request.args.get('id')
         title = form.title.data
         timestamp = datetime.datetime.now()
         category = form.category.data
         technology = form.technology.data
-        print category.id, technology
-        if technology == "other":
-           technology = form.other_technology.data
+        if technology.name == "Other":
+           new_technology = form.other_technology.data
+           print new_technology
            image_name = request.files[form.image.name]
            filename = secure_filename(image_name.filename)
            filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
            #image_name.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
            image_name.save(os.path.join(app.root_path, './static/logos', filename))
-           connect.add_new_technology(technology, filepath)
+           connect.add_new_technology(new_technology, filepath)
+           technology = connect.get_technology(new_technology)
 
         description = form.description.data
         url = form.url.data
         youtube = form.youtube.data
-        # category_object = connect.get_category(category)
-        technology_object = connect.get_technology(technology)
-        connect.add_project(title, timestamp, category.id, technology_object.id, description, url, youtube)
+        if project_id:
+             connect.update_project(project_id, title, category.id, technology.id, description, url, youtube)
+        else:
+            connect.add_project(title, category.id, technology.id, description, url, youtube)
 
         return redirect(url_for('projects'))
+
+@app.route('/hobbies', methods=['GET'])
+def hobbies():
+    return render_template("hobbies.html")
 
 @app.route('/logout', methods=['GET'])
 @login_required
