@@ -56,7 +56,6 @@ def contact():
     email = request.form.get("email")
     phone = request.form.get("phone")
     message = request.form.get("message")
-    print name
     slack_notification_payload={"text": "New Message- \n\nName: {0} \nEmail: {1} \nPhone: {2} \nMessage: \n{3}".format(name, email, phone, message)}
     requests.post(slack_webhook, data=json.dumps(slack_notification_payload))
     return render_template("contact.html", message="Thanks for getting in touch :)")
@@ -113,7 +112,6 @@ def admin_home():
            image_name = request.files[form.image.name]
            filename = secure_filename(image_name.filename)
            filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
-           #image_name.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
            image_name.save(os.path.join(app.root_path, './static/logos', filename))
            connect.add_new_technology(new_technology, filepath)
            technology = connect.get_technology(new_technology)
@@ -130,7 +128,16 @@ def admin_home():
 
 @app.route('/hobbies', methods=['GET'])# pragma: no cover
 def hobbies():
-    return render_template("hobbies.html")
+    return render_template("hobbies.html")# pragma: no cover
+
+@app.route('/get_stats', methods=['GET'])
+def get_stats():
+    project_stats = connect.project_tracking()
+    for i in project_stats:
+        print i.name, i.hovers, i.git_clicks, i.youtube_clicks
+    # slack_notification_payload={"text": "New Message- \n\nName: {0} \nEmail: {1} \nPhone: {2} \nMessage: \n{3}".format(name, email, phone, message)}
+    # requests.post(slack_webhook, data=json.dumps(slack_notification_payload))
+    return "Success"
 
 @app.route('/logout', methods=['GET'])# pragma: no cover
 @login_required# pragma: no cover

@@ -1,5 +1,5 @@
 from sqlalchemy import *
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, aliased
 import urllib
 from models import *
 import datetime
@@ -193,5 +193,21 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
+        def project_tracking(self):
+            hovers = aliased(ProjectTracking, name='hovers')
+            git_clicks = aliased(ProjectTracking, name='git_clicks')
+            youtube_clicks = aliased(ProjectTracking, name='youtube_clicks')
+
+            get_project_stats = self.db_session.query(Project.title.label('title'),
+                                                      func.count(hovers.id.distinct()).label('hovers'),
+                                                      func.count(git_clicks.id.distinct()).label('git_clicks'),
+                                                      func.count(youtube_clicks.id.distinct()).label('youtube_clicks')).\
+                outerjoin(hovers, and_(func.datediff(text('day'), hovers.timestamp, datetime.datetime.now().date()) == 0,
+                       hovers.interaction_type == "hover")).\
+                outerjoin(git_clicks, and_(func.datediff(text('day'), git_clicks.timestamp, datetime.datetime.now().date()) == 0,
+                       git_clicks.interaction_type == "click-git")).\
+                outerjoin(youtube_clicks, and_(func.datediff(text('day'), youtube_clicks.timestamp, datetime.datetime.now().date()) == 0,
+                       youtube_clicks.interaction_type == "click-youtube")).all()
+            return get_project_stats
 
 
