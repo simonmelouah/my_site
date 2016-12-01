@@ -30,8 +30,13 @@ class Project(Base):
     description = Column(String(1000))
     url = Column(String(150))
     youtube = Column(String(150))
-    hovers = Column(Integer)
-    clicks = Column(Integer)
+
+class ProjectTracking(Base):
+    __tablename__ = 'project_tracking'
+    id = Column(Integer, primary_key=True)
+    timestamp = Column(DateTime)
+    project_id = Column(Integer)
+    interaction_type = Column(String(50))
 
 class WebPage(Base):
     __tablename__ = 'web_page'
@@ -39,8 +44,8 @@ class WebPage(Base):
     timestamp = Column(DateTime)
     name = Column(String(50))
 
-class PageTracking(Base):
-    __tablename__ = 'page_tracking'
+class WebPageTracking(Base):
+    __tablename__ = 'web_page_tracking'
     id = Column(Integer, primary_key=True)
     timestamp = Column(DateTime)
     web_page_id = Column(Integer)

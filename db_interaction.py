@@ -2,6 +2,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 import urllib
 from models import *
+import datetime
 import os
 
 
@@ -148,4 +149,21 @@ class DbInteraction(object):
                 filter(Project.id == project_id).\
                 order_by(Project.timestamp.desc()).first()
             return get_single_project
+
+        def add_project_tracking(self, project_id, interaction_type):
+            try:
+                project_tracking = ProjectTracking(
+                    project_id = project_id,
+                    timestamp = datetime.datetime.now(),
+                    interaction_type = interaction_type,
+                    )
+                self.db_session.add(project_tracking)
+                self.db_session.commit()
+            except:
+                self.db_session.rollback()
+                raise
+            finally:
+                self.db_session.close()
+
+
 
