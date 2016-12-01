@@ -43,7 +43,7 @@ class GetUserRoutesTest(unittest.TestCase):
             response = tester.get('/contact', content_type='html/text')
             self.assertTrue(b"Contact" in response.data)
 
-class GetAdminRoutesTest(unittest.TestCase):
+class AdminRightsTest(unittest.TestCase):
 
     def test_get_admin_route(self):
         with app.test_client() as tester:
