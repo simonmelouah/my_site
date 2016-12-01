@@ -87,7 +87,7 @@ def admin():
     return render_template("admin_login.html", form = form, error = error)
 
 @app.route('/add_project', methods=['GET', 'POST'])# pragma: no cover
-@login_required
+@login_required# pragma: no cover
 def admin_home():
     form = ProjectForm(request.form)
     if request.method == 'GET':
@@ -95,16 +95,16 @@ def admin_home():
         if request.args.get('id'):
             project_id = request.args.get('id')
             project = connect.project(project_id)
-            form.title.data = project.title
-            form.description.data = project.description
-            form.url.data = project.url
-            form.youtube.data = project.youtube
+            if project:
+                form.title.data = project.title
+                form.description.data = project.description
+                form.url.data = project.url
+                form.youtube.data = project.youtube
         return render_template("admin_home.html", form = form)
 
     elif request.method == 'POST':
         project_id = request.args.get('id')
         title = form.title.data
-        timestamp = datetime.datetime.now()
         category = form.category.data
         technology = form.technology.data
         if technology.name == "Other":
@@ -133,7 +133,7 @@ def hobbies():
     return render_template("hobbies.html")
 
 @app.route('/logout', methods=['GET'])# pragma: no cover
-@login_required
+@login_required# pragma: no cover
 def logout():
     if request.method == 'GET':
         session['logged_in'] = False
