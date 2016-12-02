@@ -202,12 +202,13 @@ class DbInteraction(object):
                                                       func.count(hovers.id.distinct()).label('hovers'),
                                                       func.count(git_clicks.id.distinct()).label('git_clicks'),
                                                       func.count(youtube_clicks.id.distinct()).label('youtube_clicks')).\
-                outerjoin(hovers, and_(func.datediff(text('day'), hovers.timestamp, datetime.datetime.now().date()) == 0,
-                       hovers.interaction_type == "hover")).\
-                outerjoin(git_clicks, and_(func.datediff(text('day'), git_clicks.timestamp, datetime.datetime.now().date()) == 0,
-                       git_clicks.interaction_type == "click-git")).\
-                outerjoin(youtube_clicks, and_(func.datediff(text('day'), youtube_clicks.timestamp, datetime.datetime.now().date()) == 0,
-                       youtube_clicks.interaction_type == "click-youtube")).all()
+                outerjoin(hovers, and_(func.datediff(hovers.timestamp, datetime.datetime.now().date()) == 0,
+                       hovers.interaction_type == "hover", hovers.project_id == Project.id)).\
+                outerjoin(git_clicks, and_(func.datediff(git_clicks.timestamp, datetime.datetime.now().date()) == 0,
+                       git_clicks.interaction_type == "click-git", git_clicks.project_id == Project.id)).\
+                outerjoin(youtube_clicks, and_(func.datediff(youtube_clicks.timestamp, datetime.datetime.now().date()) == 0,
+                       youtube_clicks.interaction_type == "click-youtube", youtube_clicks.project_id == Project.id)).\
+                group_by(Project.title).all()
             return get_project_stats
 
 

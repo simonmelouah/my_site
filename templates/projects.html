@@ -30,7 +30,7 @@
             </div>
                     <br/>
                     <div class="row">
-                <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-7 col-md-offset-3">
             {% for i in list_of_projects %}
             <div class="hoverCheck" data-id="{{ i.id }}">
             <div class="panel panel-default">
@@ -39,9 +39,11 @@
                         <div class="col-md-11">
                             <h1 class="panel-title" style="font-weight: bold;">{{ i.title }} ({{ i.category }})</h1>
                         </div>
+                      {% if admin %}
                       <div class="col-md-1">
                           <input class="editProject" type="image" src="./static/logos/pencil.png" value="{{ i.id }}">
                       </div>
+                      {% endif %}
                       </div>
                   </div>
                   <div class="panel-body">

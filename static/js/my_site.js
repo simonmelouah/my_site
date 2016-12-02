@@ -1,20 +1,20 @@
 $(document).ready(function () {
 
-//    $('.hoverCheck').hover( function(){
-//    console.log("Here");
-//    var val = $(this).data('id');
-//    console.log("This is the value: " + val);
-//    $.ajax({
-//        type : "POST",
-//        url : "/projects",
-//        contentType: 'application/json;charset=UTF-8',
-//        data: JSON.stringify({'data-hover': val}),
-//        dataType: "json",
-//        success: function(result) {
-//            console.log(result);
-//        }
-//    });
-//    });
+    $('.hoverCheck').hover( function(){
+    console.log("Here");
+    var val = $(this).data('id');
+    console.log("This is the value: " + val);
+    $.ajax({
+        type : "POST",
+        url : "/projects",
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify({'data-hover': val}),
+        dataType: "json",
+        success: function(result) {
+            console.log(result);
+        }
+    });
+    });
 
     $('.gitRepo').click( function(){
     console.log("Here");
