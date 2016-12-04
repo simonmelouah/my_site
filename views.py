@@ -127,7 +127,7 @@ def admin_home():
 
         return redirect(url_for('software_portfolio'))
 
-@app.route('/karate', methods=['GET'])# pragma: no cover
+@app.route('/sports', methods=['GET'])# pragma: no cover
 def hobbies():
     return render_template("hobbies.html")# pragma: no cover
 

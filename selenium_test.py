@@ -92,7 +92,7 @@ def send_message_test():
 get_route_test(url)
 get_route_test(url, "about")
 get_route_test(url, "software_portfolio")
-get_route_test(url, "karate")
+get_route_test(url, "sports")
 get_route_test(url, "add_project")
 get_route_test(url, "admin")
 

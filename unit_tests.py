@@ -36,8 +36,8 @@ class UserRightsTest(unittest.TestCase):
 
     def test_get_hobbies(self):
         with app.test_client() as tester:
-            response = tester.get('/karate', content_type='html/text')
-            self.assertTrue(b"Karate" in response.data)
+            response = tester.get('/sports', content_type='html/text')
+            self.assertTrue(b"Sport" in response.data)
 
     def test_get_contact(self):
         with app.test_client() as tester:
