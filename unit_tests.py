@@ -31,12 +31,12 @@ class UserRightsTest(unittest.TestCase):
 
     def test_get_projects_route(self):
         with app.test_client() as tester:
-            response = tester.get('/projects', content_type = 'html/text')
+            response = tester.get('/software_portfolio', content_type = 'html/text')
             self.assertTrue(b"Projects" in response.data)
 
     def test_get_hobbies(self):
         with app.test_client() as tester:
-            response = tester.get('/hobbies', content_type='html/text')
+            response = tester.get('/karate', content_type='html/text')
             self.assertTrue(b"Karate" in response.data)
 
     def test_get_contact(self):
@@ -71,7 +71,7 @@ class AdminRightsTest(unittest.TestCase):
     def test_get_admin_projects_route(self):
         with app.test_client() as tester:
             tester.post('/admin', data=dict(username = "admin", password = "abc123"), follow_redirects = True)
-            response = tester.get('/projects', content_type = 'html/text')
+            response = tester.get('/software_portfolio', content_type = 'html/text')
             self.assertTrue(b"Add Project >>" in response.data)
 
     def test_incorrect_admin_password_login(self):
@@ -96,7 +96,7 @@ class AdminRightsTest(unittest.TestCase):
             tester.post('/admin', data=dict(username = "admin", password = "abc123"), follow_redirects = True)
             response = tester.get('/logout', content_type = 'html/text')
             print response.data
-            self.assertTrue(b"/about" in response.data)
+            self.assertTrue(b"/home" in response.data)
 
 
 

@@ -29,8 +29,8 @@ def home():
 def about():
     return render_template("about.html")
 
-@app.route('/projects', methods=['GET', 'POST'])# pragma: no cover
-def projects():
+@app.route('/software_portfolio', methods=['GET', 'POST'])# pragma: no cover
+def software_portfolio():
     form = ProjectForm(request.form)
     list_of_projects = connect.project()
     if request.method == 'GET':
@@ -108,11 +108,12 @@ def admin_home():
         technology = form.technology.data
         if technology.name == "Other":
            new_technology = form.other_technology.data
-           print new_technology
+           filepath = ""
            image_name = request.files[form.image.name]
-           filename = secure_filename(image_name.filename)
-           filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
-           image_name.save(os.path.join(app.root_path, './static/logos', filename))
+           if image_name:
+               filename = secure_filename(image_name.filename)
+               filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
+               image_name.save(os.path.join(app.root_path, './static/logos', filename))
            connect.add_new_technology(new_technology, filepath)
            technology = connect.get_technology(new_technology)
 
@@ -124,9 +125,9 @@ def admin_home():
         else:
             connect.add_project(title, category.id, technology.id, description, url, youtube)
 
-        return redirect(url_for('projects'))
+        return redirect(url_for('software_portfolio'))
 
-@app.route('/hobbies', methods=['GET'])# pragma: no cover
+@app.route('/karate', methods=['GET'])# pragma: no cover
 def hobbies():
     return render_template("hobbies.html")# pragma: no cover
 
@@ -150,7 +151,7 @@ def get_stats():
 def logout():
     if request.method == 'GET':
         session['logged_in'] = False
-        return redirect(url_for('about'))
+        return redirect(url_for('home'))
 
 
 
