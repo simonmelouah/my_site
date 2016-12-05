@@ -17,7 +17,10 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])# pragma: n
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER# pragma: no cover
 slack_webhook = 'https://hooks.slack.com/services/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'# pragma: no cover
 connect = DbInteraction() # pragma: no cover
-# connect = DbInteraction("site_admin", "3qDMkSQcQt2wZuUT", "my-site-rds-db.cyiv51njreag.eu-west-1.rds.amazonaws.com:3306", "my_site_db")
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/', methods=['GET'])# pragma: no cover
 @app.route('/home', methods=['GET'])# pragma: no cover
@@ -110,10 +113,10 @@ def admin_home():
            new_technology = form.other_technology.data
            filepath = ""
            image_name = request.files[form.image.name]
-           if image_name:
+           if image_name and allowed_file(image_name.filename):
                filename = secure_filename(image_name.filename)
                filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
-               image_name.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], filename))
+               image_name.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
            connect.add_new_technology(new_technology, filepath)
            technology = connect.get_technology(new_technology)
 
