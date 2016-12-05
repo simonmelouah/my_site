@@ -12,7 +12,7 @@ import os# pragma: no cover
 from logins import *# pragma: no cover
 import json# pragma: no cover
 
-UPLOAD_FOLDER = './static/logos'# pragma: no cover
+UPLOAD_FOLDER = '/uploads'# pragma: no cover
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])# pragma: no cover
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER# pragma: no cover
 slack_webhook = 'https://hooks.slack.com/services/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'# pragma: no cover
