@@ -113,7 +113,7 @@ def admin_home():
            if image_name:
                filename = secure_filename(image_name.filename)
                filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
-               image_name.save(os.path.join(app.root_path, './static/logos', filename))
+               image_name.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], filename))
            connect.add_new_technology(new_technology, filepath)
            technology = connect.get_technology(new_technology)
 
