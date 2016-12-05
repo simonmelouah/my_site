@@ -134,16 +134,16 @@ def hobbies():
 @app.route('/get_stats', methods=['GET'])
 def get_stats():
     project_stats = connect.project_tracking()
-    slack_string = ""
+    slack_string = "No views today!"
     for i in project_stats:
         if i.hovers > 0 or i.git_clicks > 0 or i.youtube_clicks > 0:
             slack_string += "Project: {0} \nHovers: {1} \nGit-Clicks: {2} \nYoutube-Clicks: {3} \n\n".format(i.title,
                                                                                                              i.hovers,
                                                                                                              i.git_clicks,
                                                                                                              i.youtube_clicks)
-    if slack_string != "":
-        slack_notification_payload={"text": slack_string}
-        requests.post(slack_webhook, data=json.dumps(slack_notification_payload))
+
+    slack_notification_payload={"text": slack_string}
+    requests.post(slack_webhook, data=json.dumps(slack_notification_payload))
     return redirect(url_for('home'))
 
 @app.route('/logout', methods=['GET'])# pragma: no cover
