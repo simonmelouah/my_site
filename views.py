@@ -12,7 +12,10 @@ import os# pragma: no cover
 from logins import *# pragma: no cover
 import json# pragma: no cover
 
+environment = os.environ.get("ENVIRONMENT")
 UPLOAD_FOLDER = './static/logos'# pragma: no cover
+if environment == "production":
+    UPLOAD_FOLDER = '/tmp'# pragma: no cover
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])# pragma: no cover
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER# pragma: no cover
 slack_webhook = 'https://hooks.slack.com/services/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'# pragma: no cover
@@ -113,7 +116,7 @@ def admin_home():
            if image_name:
                filename = secure_filename(image_name.filename)
                filepath = app.config['UPLOAD_FOLDER'] + "/" + filename
-               image_name.save(os.path.join(app.root_path, './static/logos', filename))
+               image_name.save(os.path.join(app.root_path, UPLOAD_FOLDER, filename))
            connect.add_new_technology(new_technology, filepath)
            technology = connect.get_technology(new_technology)
 
