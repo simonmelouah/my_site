@@ -6,7 +6,7 @@ $(document).ready(function () {
     console.log("This is the value: " + val);
     $.ajax({
         type : "POST",
-        url : "/projects",
+        url : "/software_portfolio",
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({'data-hover': val}),
         dataType: "json",
@@ -22,7 +22,7 @@ $(document).ready(function () {
     console.log("This is the href git value: " + val);
     $.ajax({
         type : "POST",
-        url : "/projects",
+        url : "/software_portfolio",
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({'data-click-git': val}),
         dataType: "json",
@@ -38,7 +38,7 @@ $(document).ready(function () {
     console.log("This is the href youtube value: " + val);
     $.ajax({
         type : "POST",
-        url : "/projects",
+        url : "/software_portfolio",
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({'data-click-youtube': val}),
         dataType: "json",
