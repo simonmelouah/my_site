@@ -146,8 +146,6 @@ def get_stats():
                                                                                                              i.hovers,
                                                                                                              i.git_clicks,
                                                                                                              i.youtube_clicks)
-        else:
-            slack_string = "No views today!"
 
     slack_notification_payload={"text": slack_string}
     requests.post(slack_webhook, data=json.dumps(slack_notification_payload))
