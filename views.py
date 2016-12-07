@@ -37,6 +37,7 @@ def software_portfolio():
     form = ProjectForm(request.form)
     list_of_projects = connect.project()
     if request.method == 'GET':
+        connect.close_connection()
         if 'logged_in' in session and session['logged_in']:
             return render_template("projects.html", list_of_projects = list_of_projects, admin = True)
         else:
@@ -48,6 +49,7 @@ def software_portfolio():
         connect.add_project_tracking(project_dict["data-click-git"], "click-git")
     elif "data-click-youtube" in project_dict:
         connect.add_project_tracking(project_dict["data-click-youtube"], "click-youtube")
+    connect.close_connection()
     return "Post successful"
 
 @app.route('/contact', methods=['GET', 'POST'])# pragma: no cover
@@ -149,6 +151,7 @@ def get_stats():
 
     slack_notification_payload={"text": slack_string}
     requests.post(slack_webhook, data=json.dumps(slack_notification_payload))
+    connect.close_connection()
     return redirect(url_for('home'))
 
 @app.route('/logout', methods=['GET'])# pragma: no cover
