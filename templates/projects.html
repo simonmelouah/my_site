@@ -29,50 +29,54 @@
                 </div>
                 {% endif %}
             </div>
-                    <br/>
-                    <div class="row">
+            <br/>
+            <div class="row">
                 <div class="col-md-7 col-md-offset-3">
-            {% for i in list_of_projects %}
-            <div class="hoverCheck" data-id="{{ i.id }}">
-            <div class="panel panel-default">
-                  <div class="panel-heading">
-                      <div class="row">
-                        <div class="col-md-11">
-                            <h1 class="panel-title" style="font-weight: bold;">{{ i.title }} ({{ i.category }})</h1>
-                        </div>
-                      {% if admin %}
-                      <div class="col-md-1">
-                          <input class="editProject" type="image" src="./static/logos/pencil.png" value="{{ i.id }}">
-                      </div>
-                      {% endif %}
-                      </div>
-                  </div>
-                  <div class="panel-body">
-                    <div class="row">
-                    <div class="col-md-3">
-                        <img src="{{ i.image }}" style="width: 150px; height: 150px"/>
-                      </div>
-                        <div class="col-md-7 col-md-offset-1">
-                            {% if admin %}
-                            <!--<a href="/add_project?id={{ i.id }}" class="btn btn-default">Edit</a>-->
-                            {% endif %}
-                            <p>{{ i.description }}</p>
-                            <br/>
-                            {% if i.url %}
-                            <a target="_blank" href="{{ i.url }}" class="btn btn-primary gitRepo" data-id="{{ i.id }}">Git Repository</a>
-                            {% else %}
-                            <a href="" class="btn btn-primary" disabled>Private Repository</a>
-                            {% endif %}
-                            {% if i.youtube %}
-                            <a target="_blank" href="{{ i.youtube }}" class="btn btn-success youtube" data-id="{{ i.id }}">Youtube</a>
-                            {% endif %}
-                      </div>
+                {% if list_of_projects %}
+                {% for i in list_of_projects %}
+                <div class="hoverCheck" data-id="{{ i.id }}">
+                    <div class="panel panel-default">
+                          <div class="panel-heading">
+                              <div class="row">
+                                <div class="col-md-11">
+                                    <h1 class="panel-title" style="font-weight: bold;">{{ i.title }} ({{ i.category }})</h1>
+                                </div>
+                              {% if admin %}
+                              <div class="col-md-1">
+                                  <input class="editProject" type="image" src="./static/logos/pencil.png" value="{{ i.id }}">
+                              </div>
+                              {% endif %}
+                              </div>
+                          </div>
+                          <div class="panel-body">
+                            <div class="row">
+                            <div class="col-md-3">
+                                <img src="{{ i.image }}" style="width: 150px; height: 150px"/>
+                              </div>
+                                <div class="col-md-7 col-md-offset-1">
+                                    {% if admin %}
+                                    <!--<a href="/add_project?id={{ i.id }}" class="btn btn-default">Edit</a>-->
+                                    {% endif %}
+                                    <p>{{ i.description }}</p>
+                                    <br/>
+                                    {% if i.url %}
+                                    <a target="_blank" href="{{ i.url }}" class="btn btn-primary gitRepo" data-id="{{ i.id }}">Git Repository</a>
+                                    {% else %}
+                                    <a href="" class="btn btn-primary" disabled>Private Repository</a>
+                                    {% endif %}
+                                    {% if i.youtube %}
+                                    <a target="_blank" href="{{ i.youtube }}" class="btn btn-success youtube" data-id="{{ i.id }}">Youtube</a>
+                                    {% endif %}
+                              </div>
+                            </div>
+                            </div>
+                    </div>
                 </div>
-                </div>
-                </div>
+                    {% endfor %}
+                    {% else %}
+                    <h3>Nothing to show yet, check back soon :)</h3>
+                    {% endif %}
             </div>
-            {% endfor %}
-                </div>
 
             </div>
         </div>

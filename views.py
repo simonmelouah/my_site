@@ -37,11 +37,14 @@ def software_portfolio():
     form = ProjectForm(request.form)
     list_of_projects = connect.project()
     if request.method == 'GET':
-        connect.close_connection()
-        if 'logged_in' in session and session['logged_in']:
-            return render_template("projects.html", list_of_projects = list_of_projects, admin = True)
+        if list_of_projects:
+            connect.close_connection()
+            if 'logged_in' in session and session['logged_in']:
+                return render_template("projects.html", list_of_projects = list_of_projects, admin = True)
+            else:
+                return render_template("projects.html", list_of_projects = list_of_projects)
         else:
-            return render_template("projects.html", list_of_projects = list_of_projects)
+            return render_template("projects.html")
     project_dict = json.loads(request.data)
     if "data-hover" in project_dict:
         connect.add_project_tracking(project_dict["data-hover"], "hover")

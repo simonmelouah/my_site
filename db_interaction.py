@@ -23,10 +23,11 @@ class DbInteraction(object):
                     db_host = "localhost"
                     db_name = "my_site"
                 engine = create_engine('mysql://'+ db_user +':' + db_password + '@' + db_host + '/' + db_name,
-                                       convert_unicode=True, isolation_level="READ UNCOMMITTED")
+                                       isolation_level="READ UNCOMMITTED", convert_unicode=True,
+                                       pool_reset_on_return="rollback", pool_size=100, pool_recycle=600)
                 Base.metadata.create_all(engine)
                 Base.metadata.bind = engine
-                Session = sessionmaker(bind=engine)
+                Session = sessionmaker(autocommit=False, autoflush=True, bind=engine)
                 self.db_session = Session()
 
             except ValueError, e:
@@ -194,22 +195,25 @@ class DbInteraction(object):
                 self.db_session.close()
 
         def project_tracking(self):
-            hovers = aliased(ProjectTracking, name='hovers')
-            git_clicks = aliased(ProjectTracking, name='git_clicks')
-            youtube_clicks = aliased(ProjectTracking, name='youtube_clicks')
+            try:
+                hovers = aliased(ProjectTracking, name='hovers')
+                git_clicks = aliased(ProjectTracking, name='git_clicks')
+                youtube_clicks = aliased(ProjectTracking, name='youtube_clicks')
 
-            get_project_stats = self.db_session.query(Project.title.label('title'),
-                                                      func.count(hovers.id.distinct()).label('hovers'),
-                                                      func.count(git_clicks.id.distinct()).label('git_clicks'),
-                                                      func.count(youtube_clicks.id.distinct()).label('youtube_clicks')).\
-                outerjoin(hovers, and_(func.datediff(hovers.timestamp, datetime.datetime.now().date()) == 0,
-                       hovers.interaction_type == "hover", hovers.project_id == Project.id)).\
-                outerjoin(git_clicks, and_(func.datediff(git_clicks.timestamp, datetime.datetime.now().date()) == 0,
-                       git_clicks.interaction_type == "click-git", git_clicks.project_id == Project.id)).\
-                outerjoin(youtube_clicks, and_(func.datediff(youtube_clicks.timestamp, datetime.datetime.now().date()) == 0,
-                       youtube_clicks.interaction_type == "click-youtube", youtube_clicks.project_id == Project.id)).\
-                group_by(Project.title).all()
-            return get_project_stats
+                get_project_stats = self.db_session.query(Project.title.label('title'),
+                                                          func.count(hovers.id.distinct()).label('hovers'),
+                                                          func.count(git_clicks.id.distinct()).label('git_clicks'),
+                                                          func.count(youtube_clicks.id.distinct()).label('youtube_clicks')).\
+                    outerjoin(hovers, and_(func.datediff(hovers.timestamp, datetime.datetime.now().date()) == 0,
+                           hovers.interaction_type == "hover", hovers.project_id == Project.id)).\
+                    outerjoin(git_clicks, and_(func.datediff(git_clicks.timestamp, datetime.datetime.now().date()) == 0,
+                           git_clicks.interaction_type == "click-git", git_clicks.project_id == Project.id)).\
+                    outerjoin(youtube_clicks, and_(func.datediff(youtube_clicks.timestamp, datetime.datetime.now().date()) == 0,
+                           youtube_clicks.interaction_type == "click-youtube", youtube_clicks.project_id == Project.id)).\
+                    group_by(Project.title).all()
+                return get_project_stats
+            except:
+                return False
 
         def close_connection(self):
             self.db_session.close()
