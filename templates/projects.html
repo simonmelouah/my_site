@@ -29,23 +29,24 @@
                 </div>
                 {% endif %}
             </div>
-            <!--<div class="row">-->
-                <!--<div class="col-md-3 col-md-offset-3">-->
-                <!--</div>-->
-                <!--<div class="col-md-3">-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="row">
+                <div class="col-md-3 col-md-offset-3">
+                    {{ form.category(class="form-control") }}
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
             <br/>
             <div class="row">
                 <div class="col-md-7 col-md-offset-3">
                 {% if list_of_projects %}
                 {% for i in list_of_projects %}
-                <div class="hoverCheck" data-id="{{ i.id }}">
+                <div class="hoverCheck category" data-category="{{ i.category }}" data-id="{{ i.id }}">
                     <div class="panel panel-default">
                           <div class="panel-heading">
                               <div class="row">
                                 <div class="col-md-11">
-                                    <h1 class="panel-title" style="font-weight: bold;">{{ i.title }} ({{ i.category }})</h1>
+                                    <h1 class="panel-title" style="font-weight: bold;">{{ i.title }}</h1>
                                 </div>
                               {% if admin %}
                               <div class="col-md-1">

@@ -74,42 +74,20 @@ $(document).ready(function () {
             }
         });
     }
-//    if (top.location.pathname === '/software_portfolio'){
-//        $('#technology').on('change', function () {
-//            var technology_id = $("#technology option:selected").val();
-//            var category_id = $("#category option:selected").val();
-//            if (category_id != null && technology_id != null){
-//            console.log("Technology id: ", technology_id);
-//            console.log("Category id: ", category_id);
-//            $.ajax({
-//                type : "POST",
-//                url : "/software_portfolio",
-//                contentType: 'application/json;charset=UTF-8',
-//                data: JSON.stringify({'technology-id': technology_id, 'category-id': category_id}),
-//                dataType: "json",
-//                success: function(result) {
-//                }
-//            });
-//            }
-//        });
-//        $('#category').on('change', function () {
-//            var technology_id = $("#technology option:selected").val();
-//            var category_id = $("#category option:selected").val();
-//            if (category_id != null && technology_id != null){
-//            console.log("Technology id: ", technology_id);
-//            console.log("Category id: ", category_id);
-//            $.ajax({
-//                type : "POST",
-//                url : "/software_portfolio",
-//                contentType: 'application/json;charset=UTF-8',
-//                data: JSON.stringify({'technology-id': technology_id, 'category-id': category_id}),
-//                dataType: "json",
-//                success: function(result) {
-//                }
-//            });
-//            }
-//        });
-//    }
+    if (top.location.pathname === '/software_portfolio'){
+        $(".category").hide();
+        $('#category').on('change', function () {
+            var category = $("#category option:selected").text();
+            if (category != "Select a category..."){
+            console.log("Category: ", category);
+            $(".category").hide();
+            $(".category[data-category="+category+"]").show();
+            }
+            else{
+            $(".category").hide();
+            }
+        });
+        }
 
     if (top.location.pathname === '/about'){
     console.log("Here");

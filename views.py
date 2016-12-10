@@ -34,17 +34,17 @@ def about():
 
 @app.route('/software_portfolio', methods=['GET', 'POST'])# pragma: no cover
 def software_portfolio():
-    # form = ProjectForm(request.form)
+    form = ProjectForm(request.form)
     list_of_projects = connect.project()
     if request.method == 'GET':
         if list_of_projects:
             connect.close_connection()
             if 'logged_in' in session and session['logged_in']:
-                return render_template("projects.html", list_of_projects = list_of_projects, admin = True)
+                return render_template("projects.html", list_of_projects = list_of_projects, admin = True, form = form)
             else:
-                return render_template("projects.html", list_of_projects = list_of_projects)
+                return render_template("projects.html", list_of_projects = list_of_projects, form = form)
         else:
-            return render_template("projects.html")
+            return render_template("projects.html", form = form)
     project_dict = json.loads(request.data)
     if "data-hover" in project_dict:
         connect.add_project_tracking(project_dict["data-hover"], "hover")
@@ -54,41 +54,6 @@ def software_portfolio():
         connect.add_project_tracking(project_dict["data-click-youtube"], "click-youtube")
     connect.close_connection()
     return "Post successful"
-
-# @app.route('/software_portfolio', methods=['GET', 'POST'])# pragma: no cover
-# def software_portfolio():
-#     form = ProjectForm(request.form)
-#     if request.method == 'GET':
-#         if request.data:
-#             option_dict = json.loads(request.data)
-#
-#         else:
-#             categories = connect.category_choices()
-#             technologies = connect.technology_choices()
-#             form.category.choices.extend([(category.id, category.name) for category in categories])
-#             form.technology.choices.extend([(technology.id, technology.name) for technology in technologies])
-#             return render_template("projects.html", form=form)
-#     project_dict = json.loads(request.data)
-#     if "technology-id" in project_dict and "category-id" in project_dict:
-#         categories = connect.category_choices(project_dict["technology-id"])
-#         technologies = connect.technology_choices(project_dict["category-id"])
-#         form.category.choices = [(category.id, category.name) for category in categories]
-#         form.technology.choices = [(technology.id, technology.name) for technology in technologies]
-#         list_of_projects = connect.project()
-#         connect.close_connection()
-#         if 'logged_in' in session and session['logged_in']:
-#             return render_template("projects.html", list_of_projects = list_of_projects, admin = True, form = form)
-#         else:
-#             print "Here"
-#             return render_template("projects.html", list_of_projects = list_of_projects, form = form)
-#     if "data-hover" in project_dict:
-#         connect.add_project_tracking(project_dict["data-hover"], "hover")
-#     elif "data-click-git" in project_dict:
-#         connect.add_project_tracking(project_dict["data-click-git"], "click-git")
-#     elif "data-click-youtube" in project_dict:
-#         connect.add_project_tracking(project_dict["data-click-youtube"], "click-youtube")
-#     connect.close_connection()
-#     return "Post successful"
 
 @app.route('/contact', methods=['GET', 'POST'])# pragma: no cover
 def contact():
