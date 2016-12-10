@@ -44,10 +44,14 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
-        def technology_choices(self):
+        def technology_choices(self, technology_id=None):
 
             try:
-                technologies = self.db_session.query(Technology).all()
+                if technology_id:
+                    case_conditions = case([(Technology.id == technology_id, None)], else_=Technology.name).label("case_condition")
+                    technologies = self.db_session.query(Technology).order_by(case_conditions.asc()).all()
+                else:
+                    technologies = self.db_session.query(Technology).order_by(Technology.name.asc()).all()
                 return technologies
             except:
                 self.db_session.rollback()
@@ -55,10 +59,16 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
-        def category_choices(self):
+        def category_choices(self, category_id=None):
 
             try:
-                categories = self.db_session.query(Category).all()
+                if category_id:
+                    # categories = self.db_session.query(Category).order_by(case([(Category.id == category_id),], else_ = Category.name.asc())).all()
+
+                    case_conditions = case([(Category.id == category_id, None)], else_=Category.name).label("case_condition")
+                    categories = self.db_session.query(Category).order_by(case_conditions.asc()).all()
+                else:
+                    categories = self.db_session.query(Category).order_by(Category.name.asc()).all()
                 return categories
             except:
                 self.db_session.rollback()

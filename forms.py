@@ -18,12 +18,14 @@ class UserForm(UserFormBase):
 
 class ProjectForm(ProjectFormBase):
     title = StringField('Title', [validators.Length(min=4, max=25), validators.DataRequired()])
+    technology = QuerySelectField('Technology', query_factory= connect.technology_choices,
+                        get_pk=lambda a: a.id,
+                        get_label=lambda a: a.name, allow_blank=True, blank_text=u'Select a technology...')
     category = QuerySelectField('Category', query_factory= connect.category_choices,
                             get_pk=lambda a: a.id,
-                            get_label=lambda a: a.name)
-    technology = QuerySelectField('Technology', query_factory= connect.technology_choices,
-                            get_pk=lambda a: a.id,
-                            get_label=lambda a: a.name)
+                            get_label=lambda a: a.name, allow_blank=True, blank_text=u'Select a category...')
+    # technology = SelectField(u'Technology', choices=[("", "Select a technology...")])
+    # category = SelectField(u'Category', choices = [("", "Select a category...")])
     other_technology = StringField('Other', [validators.Length(min=4, max=25), validators.DataRequired()])
     image = FileField('Image')
     description = StringField('Description', widget=TextArea())

@@ -1,7 +1,6 @@
 $(document).ready(function () {
 
     $('.hoverCheck').hover( function(){
-    console.log("Here");
     var val = $(this).data('id');
     console.log("This is the value: " + val);
     $.ajax({
@@ -11,13 +10,11 @@ $(document).ready(function () {
         data: JSON.stringify({'data-hover': val}),
         dataType: "json",
         success: function(result) {
-            console.log(result);
         }
     });
     });
 
     $('.gitRepo').click( function(){
-    console.log("Here");
     var val = $(this).data('id');
     console.log("This is the href git value: " + val);
     $.ajax({
@@ -27,13 +24,11 @@ $(document).ready(function () {
         data: JSON.stringify({'data-click-git': val}),
         dataType: "json",
         success: function(result) {
-            console.log(result);
         }
     });
     });
 
     $('.youtube').click( function(){
-    console.log("Here");
     var val = $(this).data('id');
     console.log("This is the href youtube value: " + val);
     $.ajax({
@@ -49,8 +44,6 @@ $(document).ready(function () {
     });
 
     $('.editProject').click(function(){
-
-       console.log("Pressed");
        var id = $(this).val();
        window.location.href="/add_project?id=" + id;
 
@@ -58,7 +51,6 @@ $(document).ready(function () {
 
     if (top.location.pathname === '/add_project'){
         var start_technology = $("#technology option:selected").text();
-        console.log(start_technology);
         if (start_technology == "Other") {
           document.getElementById('newTech').style.display = "block";
           document.getElementById('image').style.display = "block";
@@ -81,6 +73,50 @@ $(document).ready(function () {
 
             }
         });
+    }
+//    if (top.location.pathname === '/software_portfolio'){
+//        $('#technology').on('change', function () {
+//            var technology_id = $("#technology option:selected").val();
+//            var category_id = $("#category option:selected").val();
+//            if (category_id != null && technology_id != null){
+//            console.log("Technology id: ", technology_id);
+//            console.log("Category id: ", category_id);
+//            $.ajax({
+//                type : "POST",
+//                url : "/software_portfolio",
+//                contentType: 'application/json;charset=UTF-8',
+//                data: JSON.stringify({'technology-id': technology_id, 'category-id': category_id}),
+//                dataType: "json",
+//                success: function(result) {
+//                }
+//            });
+//            }
+//        });
+//        $('#category').on('change', function () {
+//            var technology_id = $("#technology option:selected").val();
+//            var category_id = $("#category option:selected").val();
+//            if (category_id != null && technology_id != null){
+//            console.log("Technology id: ", technology_id);
+//            console.log("Category id: ", category_id);
+//            $.ajax({
+//                type : "POST",
+//                url : "/software_portfolio",
+//                contentType: 'application/json;charset=UTF-8',
+//                data: JSON.stringify({'technology-id': technology_id, 'category-id': category_id}),
+//                dataType: "json",
+//                success: function(result) {
+//                }
+//            });
+//            }
+//        });
+//    }
+
+    if (top.location.pathname === '/about'){
+    console.log("Here");
+    var elements = document.getElementsByClassName("navbar-a");
+    for(var i = 0; i < elements.length; i++) {
+        elements[i].style.color = 'black';
+    }
     }
 
 });
