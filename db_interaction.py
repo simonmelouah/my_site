@@ -1,5 +1,5 @@
 from sqlalchemy import *
-from sqlalchemy.orm import sessionmaker, aliased
+from sqlalchemy.orm import sessionmaker, scoped_session, aliased
 import urllib
 from models import *
 import datetime
@@ -27,7 +27,7 @@ class DbInteraction(object):
                                        pool_reset_on_return="rollback", pool_size=100, pool_recycle=600)
                 Base.metadata.create_all(engine)
                 Base.metadata.bind = engine
-                Session = sessionmaker(autocommit=False, autoflush=True, bind=engine)
+                Session = scoped_session(sessionmaker(autocommit=False, autoflush=True, bind=engine))
                 self.db_session = Session()
 
             except ValueError, e:
