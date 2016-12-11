@@ -223,7 +223,10 @@ class DbInteraction(object):
                     group_by(Project.title).all()
                 return get_project_stats
             except:
+                self.db_session.rollback()
                 return False
+            finally:
+                self.db_session.close()
 
         def close_connection(self):
             self.db_session.close()
