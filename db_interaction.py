@@ -145,31 +145,43 @@ class DbInteraction(object):
         def project(self, project_id=None):
 
             if project_id:
-                get_project = self.db_session.query(Project.title.label('title'),
-                                             Technology.image.label('image'),
-                                             Project.timestamp.label('timestamp'),
-                                             Technology.name.label('technology'),
-                                             Category.name.label('category'),
-                                             Project.description.label('description'),
-                                             Project.url.label('url'),
-                                             Project.youtube.label('youtube')).\
-                                    outerjoin(Technology, Project.technology_id == Technology.id).\
-                                    outerjoin(Category, Project.category_id == Category.id).\
-                                    filter(Project.id == project_id).\
-                                    order_by(Project.timestamp.desc()).first()
-            else:
-                get_project = self.db_session.query(Project.id.label('id'),
-                                                Project.title.label('title'),
-                                                Technology.image.label('image'),
-                                                Project.timestamp.label('timestamp'),
-                                                Technology.name.label('technology'),
-                                                Category.name.label('category'),
-                                                Project.description.label('description'),
-                                                Project.url.label('url'),
-                                                Project.youtube.label('youtube')).\
+                try:
+                    get_project = self.db_session.query(Project.title.label('title'),
+                                                 Technology.image.label('image'),
+                                                 Project.timestamp.label('timestamp'),
+                                                 Technology.name.label('technology'),
+                                                 Category.name.label('category'),
+                                                 Project.description.label('description'),
+                                                 Project.url.label('url'),
+                                                 Project.youtube.label('youtube')).\
                                         outerjoin(Technology, Project.technology_id == Technology.id).\
                                         outerjoin(Category, Project.category_id == Category.id).\
-                                        order_by(Project.timestamp.desc()).all()
+                                        filter(Project.id == project_id).\
+                                        order_by(Project.timestamp.desc()).first()
+                except:
+                    self.db_session.rollback()
+                    get_project = None
+                finally:
+                    self.db_session.close()
+            else:
+                try:
+                    get_project = self.db_session.query(Project.id.label('id'),
+                                                    Project.title.label('title'),
+                                                    Technology.image.label('image'),
+                                                    Project.timestamp.label('timestamp'),
+                                                    Technology.name.label('technology'),
+                                                    Category.name.label('category'),
+                                                    Project.description.label('description'),
+                                                    Project.url.label('url'),
+                                                    Project.youtube.label('youtube')).\
+                                            outerjoin(Technology, Project.technology_id == Technology.id).\
+                                            outerjoin(Category, Project.category_id == Category.id).\
+                                            order_by(Project.timestamp.desc()).all()
+                except:
+                    self.db_session.rollback()
+                    get_project = None
+                finally:
+                    self.db_session.close()
 
             return get_project
 
