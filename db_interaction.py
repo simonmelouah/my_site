@@ -206,6 +206,7 @@ class DbInteraction(object):
 
         def project_tracking(self):
             try:
+                print "In try"
                 hovers = aliased(ProjectTracking, name='hovers')
                 git_clicks = aliased(ProjectTracking, name='git_clicks')
                 youtube_clicks = aliased(ProjectTracking, name='youtube_clicks')
@@ -223,6 +224,7 @@ class DbInteraction(object):
                     group_by(Project.title).all()
                 return get_project_stats
             except:
+                print "In except"
                 self.db_session.rollback()
                 return False
             finally:

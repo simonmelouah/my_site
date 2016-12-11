@@ -35,7 +35,9 @@ def about():
 @app.route('/software_portfolio', methods=['GET', 'POST'])# pragma: no cover
 def software_portfolio():
     form = ProjectForm(request.form)
+    print "Before list of projects"
     list_of_projects = connect.project()
+    print "After list of projects"
     if request.method == 'GET':
         if list_of_projects:
             connect.close_connection()
