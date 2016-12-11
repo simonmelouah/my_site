@@ -89,7 +89,7 @@ $(document).ready(function () {
         });
         }
 
-    if (top.location.pathname === '/about'){
+    if (top.location.pathname === '/about' || top.location.pathname === '/contact'){
     console.log("Here");
     var elements = document.getElementsByClassName("navbar-a");
     for(var i = 0; i < elements.length; i++) {
