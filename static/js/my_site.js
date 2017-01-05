@@ -1,5 +1,19 @@
 $(document).ready(function () {
 
+    $(document).mousemove(function(event){
+        console.log(event.pageX + ", " + event.pageY);
+    });
+
+//    function getMousePosition(timeoutMilliSeconds) {
+//        $(document).one("mousemove", function (event) {
+//            window.xPos = event.pageX;
+//            window.yPos = event.pageY;
+//            setTimeout("getMousePosition(" + timeoutMilliSeconds + ")", timeoutMilliSeconds);
+//            console.log("Mouse postion x and y: " + window.xPos + " " + window.yPos)
+//        });
+//    }
+//
+//    getMousePosition(100);
     $('.hoverCheck').hover( function(){
     var val = $(this).data('id');
     console.log("This is the value: " + val);
@@ -96,5 +110,7 @@ $(document).ready(function () {
         elements[i].style.color = 'black';
     }
     }
+
+
 
 });
