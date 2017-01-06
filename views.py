@@ -57,6 +57,15 @@ def software_portfolio():
     connect.close_connection()
     return "Post successful"
 
+@app.route('/mouse_recording', methods=['POST'])
+def mouse_recording():
+    mouse_recording_dict = json.loads(request.data)
+    connect.add_mouse_recording(mouse_recording_dict["data-event_type"], mouse_recording_dict["data-window_width"],
+                                mouse_recording_dict["data-window_height"], mouse_recording_dict["data-x_position"],
+                                mouse_recording_dict["data-y_position"])
+    return "Success"
+
+
 @app.route('/contact', methods=['GET', 'POST'])# pragma: no cover
 def contact():
     if request.method == 'GET':

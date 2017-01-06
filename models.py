@@ -50,3 +50,14 @@ class WebPageTracking(Base):
     timestamp = Column(DateTime)
     web_page_id = Column(Integer)
     time_spent = Column(Float)
+
+class MouseRecording(Base):
+    __tablename__ = 'mouse_recording'
+    id = Column(Integer, primary_key=True)
+    session_id = Column(String(20))
+    timestamp = Column(DateTime)
+    event_type = Column(String(10))
+    window_width = Column(Float)
+    window_height = Column(Float)
+    x_position = Column(Float)
+    y_position = Column(Float)

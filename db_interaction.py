@@ -218,7 +218,6 @@ class DbInteraction(object):
 
         def project_tracking(self):
             try:
-                print "In try"
                 hovers = aliased(ProjectTracking, name='hovers')
                 git_clicks = aliased(ProjectTracking, name='git_clicks')
                 youtube_clicks = aliased(ProjectTracking, name='youtube_clicks')
@@ -236,13 +235,33 @@ class DbInteraction(object):
                     group_by(Project.title).all()
                 return get_project_stats
             except:
-                print "In except"
                 self.db_session.rollback()
                 return False
             finally:
                 self.db_session.close()
 
+        def add_mouse_recording(self, event_type, window_width, window_height, x_position, y_position):
+            try:
+                mouse_recording = MouseRecording(
+                    timestamp = datetime.datetime.now(),
+                    event_type = event_type,
+                    window_width = window_width,
+                    window_height = window_height,
+                    x_position = x_position,
+                    y_position = y_position
+                    )
+                self.db_session.add(mouse_recording)
+                self.db_session.commit()
+            except:
+                self.db_session.rollback()
+                raise
+            finally:
+                self.db_session.close()
+
+
         def close_connection(self):
             self.db_session.close()
+
+
 
 

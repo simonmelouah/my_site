@@ -1,19 +1,10 @@
 $(document).ready(function () {
 
-    $(document).mousemove(function(event){
-        console.log(event.pageX + ", " + event.pageY);
-    });
+//    'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+//    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+//    return v.toString(16);
+//    });
 
-//    function getMousePosition(timeoutMilliSeconds) {
-//        $(document).one("mousemove", function (event) {
-//            window.xPos = event.pageX;
-//            window.yPos = event.pageY;
-//            setTimeout("getMousePosition(" + timeoutMilliSeconds + ")", timeoutMilliSeconds);
-//            console.log("Mouse postion x and y: " + window.xPos + " " + window.yPos)
-//        });
-//    }
-//
-//    getMousePosition(100);
     $('.hoverCheck').hover( function(){
     var val = $(this).data('id');
     console.log("This is the value: " + val);
