@@ -258,6 +258,15 @@ class DbInteraction(object):
             finally:
                 self.db_session.close()
 
+        def get_mouse_recordings(self):
+            try:
+                mouse_recordings = self.db_session.query(MouseRecording).order_by(MouseRecording.timestamp.asc()).all()
+                return mouse_recordings
+            except:
+                self.db_session.rollback()
+                raise
+            finally:
+                self.db_session.close()
 
         def close_connection(self):
             self.db_session.close()

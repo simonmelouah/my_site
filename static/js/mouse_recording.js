@@ -1,3 +1,4 @@
+// Declare
 var position_x, position_y, window_width, window_height;
 document.onmousemove = function(e) {
     position_x = e.clientX;
@@ -15,7 +16,7 @@ setInterval(function() {
     success: function(result) {
     }
     });
-    }, 2000);
+    }, 500);
 
 document.onclick = function(e) {
     position_x = e.clientX;
