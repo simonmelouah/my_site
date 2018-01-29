@@ -19,7 +19,7 @@ $(document).ready(function () {
     console.log("This is the value: " + val);
     $.ajax({
         type : "POST",
-        url : "/software_portfolio",
+        url : "/software-portfolio",
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({'data-hover': val}),
         dataType: "json",
@@ -33,7 +33,7 @@ $(document).ready(function () {
     console.log("This is the href git value: " + val);
     $.ajax({
         type : "POST",
-        url : "/software_portfolio",
+        url : "/software-portfolio",
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({'data-click-git': val}),
         dataType: "json",
@@ -47,7 +47,7 @@ $(document).ready(function () {
     console.log("This is the href youtube value: " + val);
     $.ajax({
         type : "POST",
-        url : "/software_portfolio",
+        url : "/software-portfolio",
         contentType: 'application/json;charset=UTF-8',
         data: JSON.stringify({'data-click-youtube': val}),
         dataType: "json",
@@ -88,7 +88,7 @@ $(document).ready(function () {
             }
         });
     }
-    if (top.location.pathname === '/software_portfolio'){
+    if (top.location.pathname === '/software-portfolio'){
         $(".category").hide();
         $('#category').on('change', function () {
             var category = $("#category option:selected").text();
