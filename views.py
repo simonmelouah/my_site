@@ -178,7 +178,6 @@ def hobbies():
 
 @app.route('/get-stats', methods=['GET'])
 def get_stats():
-    print "Worked"
     project_stats = connect.project_tracking()
     slack_string = ""
     for i in project_stats:
