@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
-    $(document).mousemove(function(event){
-        console.log(event.pageX + ", " + event.pageY);
-    });
+    // $(document).mousemove(function(event){
+    //     console.log(event.pageX + ", " + event.pageY);
+    // });
 
 //    function getMousePosition(timeoutMilliSeconds) {
 //        $(document).one("mousemove", function (event) {
@@ -75,7 +75,6 @@ $(document).ready(function () {
         }
         $('#technology').on('change', function () {
             var technology = $("#technology option:selected").text();
-            console.log(technology);
             if (technology == "Other") {
                 console.log("Other");
                 document.getElementById('newTech').style.display = "block";
@@ -104,7 +103,6 @@ $(document).ready(function () {
         }
 
     if (top.location.pathname === '/about' || top.location.pathname === '/contact'){
-    console.log("Here");
     var elements = document.getElementsByClassName("navbar-a");
     for(var i = 0; i < elements.length; i++) {
         elements[i].style.color = 'black';
