@@ -16,7 +16,6 @@ $(document).ready(function () {
 //    getMousePosition(100);
     $('.hoverCheck').hover( function(){
     var val = $(this).data('id');
-    console.log("This is the value: " + val);
     $.ajax({
         type : "POST",
         url : "/software-portfolio",
@@ -63,7 +62,7 @@ $(document).ready(function () {
 
     });
 
-    if (top.location.pathname === '/add_project'){
+    if (top.location.pathname === '/add-project'){
         var start_technology = $("#technology option:selected").text();
         if (start_technology == "Other") {
           document.getElementById('newTech').style.display = "block";
