@@ -58,7 +58,7 @@ $(document).ready(function () {
 
     $('.editProject').click(function(){
        var id = $(this).val();
-       window.location.href="/add_project?id=" + id;
+       window.location.href="/add-project?id=" + id;
 
     });
 

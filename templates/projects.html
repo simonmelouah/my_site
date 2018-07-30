@@ -1,87 +1,77 @@
-{% extends "base_template.html" %}
-{% block main %}
+{% extends "base_template.html" %} {% block main %}
 <header class="intro-header" style="background-image: url('static/img/mac.jpg'); height:850px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="page-heading">
-                        <h1>Portfolio</h1>
-                        <hr class="small">
-                        <span class="subheading">What I build.</span>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-heading">
+          <h1>Portfolio</h1>
+          <hr class="small">
+          <span class="subheading">What I build.</span>
         </div>
-    </header>
-    <div class="container">
+      </div>
+    </div>
+  </div>
+</header>
+<div class="container">
 
+  <div class="row">
+    <div class="col-md-5 col-md-offset-2">
+      <h1>Things I've worked on...</h1>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/> {% if admin %}
+    <div class="col-md-2 col-md-offset-8">
+      <a href="/add-project" class="btn btn-info">Add Project >></a>
+    </div>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-3">
+      {{ form.category(class="form-control") }}
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-7 col-md-offset-3">
+      {% if list_of_projects %} {% for i in list_of_projects %}
+      <div class="hoverCheck category" data-category="{{ i.category }}" data-id="{{ i.id }}">
+        <div class="panel panel-default">
+          <div class="panel-heading">
             <div class="row">
-                <div class="col-md-5 col-md-offset-2">
-                <h1>Things I've worked on...</h1>
-                    </div>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                {% if admin %}
-                <div class="col-md-2 col-md-offset-8">
-                    <a href="/add_project" class="btn btn-info">Add Project >></a>
-                </div>
-                {% endif %}
+              <div class="col-md-11">
+                <h1 class="panel-title" style="font-weight: bold;">{{ i.title }}</h1>
+              </div>
+              {% if admin %}
+              <div class="col-md-1">
+                <input class="editProject" type="image" src="./static/logos/pencil.png" value="{{ i.id }}">
+              </div>
+              {% endif %}
             </div>
+          </div>
+          <div class="panel-body">
             <div class="row">
-                <div class="col-md-3 col-md-offset-3">
-                    {{ form.category(class="form-control") }}
-                </div>
-                <div class="col-md-3">
-                </div>
+              <div class="col-md-3">
+                <img src="{{ i.image }}" style="width: 150px; height: 150px" />
+              </div>
+              <div class="col-md-7 col-md-offset-1">
+                <p>{{ i.description }}</p>
+                <br/> {% if i.url %}
+                <a target="_blank" href="{{ i.url }}" class="btn btn-primary gitRepo" data-id="{{ i.id }}">Git Repository</a> {% else %}
+                <a href="" class="btn btn-primary" disabled>Private Repository</a> {% endif %} {% if i.youtube %}
+                <a target="_blank" href="{{ i.youtube }}" class="btn btn-success youtube" data-id="{{ i.id }}">Youtube</a> {% endif %}
+              </div>
             </div>
-            <br/>
-            <div class="row">
-                <div class="col-md-7 col-md-offset-3">
-                {% if list_of_projects %}
-                {% for i in list_of_projects %}
-                <div class="hoverCheck category" data-category="{{ i.category }}" data-id="{{ i.id }}">
-                    <div class="panel panel-default">
-                          <div class="panel-heading">
-                              <div class="row">
-                                <div class="col-md-11">
-                                    <h1 class="panel-title" style="font-weight: bold;">{{ i.title }}</h1>
-                                </div>
-                              {% if admin %}
-                              <div class="col-md-1">
-                                  <input class="editProject" type="image" src="./static/logos/pencil.png" value="{{ i.id }}">
-                              </div>
-                              {% endif %}
-                              </div>
-                          </div>
-                          <div class="panel-body">
-                            <div class="row">
-                            <div class="col-md-3">
-                                <img src="{{ i.image }}" style="width: 150px; height: 150px"/>
-                              </div>
-                                <div class="col-md-7 col-md-offset-1">
-                                    <p>{{ i.description }}</p>
-                                    <br/>
-                                    {% if i.url %}
-                                    <a target="_blank" href="{{ i.url }}" class="btn btn-primary gitRepo" data-id="{{ i.id }}">Git Repository</a>
-                                    {% else %}
-                                    <a href="" class="btn btn-primary" disabled>Private Repository</a>
-                                    {% endif %}
-                                    {% if i.youtube %}
-                                    <a target="_blank" href="{{ i.youtube }}" class="btn btn-success youtube" data-id="{{ i.id }}">Youtube</a>
-                                    {% endif %}
-                              </div>
-                            </div>
-                            </div>
-                    </div>
-                </div>
-                    {% endfor %}
-                    {% else %}
-                    <h3>Nothing to show yet, check back soon :)</h3>
-                    {% endif %}
-            </div>
-
-            </div>
+          </div>
         </div>
+      </div>
+      {% endfor %} {% else %}
+      <h3>Nothing to show yet, check back soon :)</h3> {% endif %}
+    </div>
+
+  </div>
+</div>
 {% endblock %}
