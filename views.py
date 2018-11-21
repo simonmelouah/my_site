@@ -8,9 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash  # pra
 import requests  # pragma: no cover
 import os  # pragma: no cover
 from logins import *  # pragma: no cover
-from flask_recaptcha import ReCaptcha  # pragma: no cover
 
-recaptcha = ReCaptcha(app=app)
 
 UPLOAD_FOLDER = './static/logos'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
