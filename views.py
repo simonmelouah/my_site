@@ -74,7 +74,7 @@ def contact():
     if request.method == 'GET':
         return render_template("contact.html", site_key=site_key)
 
-    secret = os.getenv("GOOGLE_RECAPTCHA_SITE_KEY")
+    secret = os.getenv("GOOGLE_RECAPTCHA_SECRET_KEY")
     captcha_response = request.form.get("g-recaptcha-response")
     payload = {'response': captcha_response, 'secret': secret}
     response = requests.post(
