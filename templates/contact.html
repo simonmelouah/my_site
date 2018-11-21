@@ -51,6 +51,8 @@
                     <br>
                     <div class="row">
                         <div class="form-group col-xs-12">
+                          <div class="g-recaptcha" data-sitekey="{{ site_key }}"></div>
+                            <br>
                             {% if message %}
                             <p style="color: green;">
                                 <strong>Message sent:</strong> {{ message }}

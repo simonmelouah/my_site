@@ -1,19 +1,20 @@
 # Main file that renders html templates
-from flask import Flask, url_for, session, request, render_template, redirect, send_file, jsonify, json  # pragma: no cover
+from flask import request, url_for, session, request, render_template, redirect, json  # pragma: no cover
 from app import app  # pragma: no cover
-import datetime  # pragma: no cover
 from db_interaction import DbInteraction  # pragma: no cover
 from forms import *  # pragma: no cover
 from werkzeug import secure_filename  # pragma: no cover
-from werkzeug.security import generate_password_hash, \
-    check_password_hash  # pragma: no cover
+from werkzeug.security import generate_password_hash, check_password_hash  # pragma: no cover
 import requests  # pragma: no cover
 import os  # pragma: no cover
 from logins import *  # pragma: no cover
-import json  # pragma: no cover
+from flask_recaptcha import ReCaptcha  # pragma: no cover
+
+recaptcha = ReCaptcha(app=app)
 
 UPLOAD_FOLDER = './static/logos'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  # pragma: no cover
 slack_webhook = 'https://hooks.slack.com/services/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'  # pragma: no cover
 connect = DbInteraction()  # pragma: no cover
@@ -71,20 +72,31 @@ def software_portfolio():
 
 @app.route('/contact', methods=['GET', 'POST'])  # pragma: no cover
 def contact():
+    site_key = os.getenv("GOOGLE_RECAPTCHA_SITE_KEY")
     if request.method == 'GET':
-        return render_template("contact.html")
+        return render_template("contact.html", site_key=site_key)
 
-    name = request.form.get("name")
-    email = request.form.get("email")
-    phone = request.form.get("phone")
-    message = request.form.get("message")
-    slack_notification_payload = {
-        "text": "New Message- \n\nName: {0} \nEmail: {1} \nPhone: {2} \nMessage: \n{3}".format(
-            name, email, phone, message)}
-    requests.post(slack_webhook, data=json.dumps(slack_notification_payload))
-    return render_template(
-        "contact.html",
-        message="Thanks for getting in touch :)")
+    secret = os.getenv("GOOGLE_RECAPTCHA_SITE_KEY")
+    captcha_response = request.form.get("g-recaptcha-response")
+    payload = {'response': captcha_response, 'secret': secret}
+    response = requests.post(
+        "https://www.google.com/recaptcha/api/siteverify", payload).json()
+    if response.get("success"):
+        name = request.form.get("name")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        message = request.form.get("message")
+        slack_notification_payload = {
+            "text": "New Message- \n\nName: {0} \nEmail: {1} \nPhone: {2} \nMessage: \n{3}".format(
+                name, email, phone, message)}
+        requests.post(slack_webhook, data=json.dumps(
+            slack_notification_payload))
+        return render_template(
+            "contact.html",
+            message="Thanks for getting in touch :)", site_key=site_key)
+    else:
+        requests.post(slack_webhook, data=json.dumps(request.remote_addr))
+        return render_template("contact.html", site_key=site_key)
 
 
 @app.route('/admin', methods=['GET', 'POST'])  # pragma: no cover
