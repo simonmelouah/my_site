@@ -7,9 +7,9 @@ wsgi_app = app.wsgi_app
 from views import *
 from db_interaction import *
 
-app.secret_key = 'secret_key'
+app.secret_key = 'weojfriowejiorjweiirjoewrj'
 if __name__ == '__main__':
-    app.secret_key = 'secret_key'
+    app.secret_key = 'weojfriowejiorjweiirjoewrj'
     HOST = os.environ.get('SERVER_HOST', 'localhost')
     try:
         PORT = int(os.environ.get('SERVER_PORT', '5555'))
