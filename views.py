@@ -14,7 +14,7 @@ UPLOAD_FOLDER = './static/logos'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  # pragma: no cover
-slack_webhook = 'https://hooks.slack.com/services/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'  # pragma: no cover
+slack_webhook = os.environ.get("SLACK_WEBHOOK")  # pragma: no cover
 connect = DbInteraction()  # pragma: no cover
 
 
